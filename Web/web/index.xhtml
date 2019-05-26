@@ -7,5 +7,13 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
    <f:view>
       <h:outputLabel value="Hello, world"/>
+      <h:form>
+        Login: <h:inputText value="#{UserController.user.name}"/> <br/>
+        Password: <h:inputSecret value="#{UserController.user.password}"/> <br/>
+        Name: <h:inputText value="#{UserController.user.name}"/> <br/>
+        Surname: <h:inputText value="#{UserController.user.surname}"/> <br/>
+        Role: <h:inputText value="#{UserController.user.role}"/> <br/>
+        <h:commandButton value="Register" onclick="#{UserController.register()}" />
+      </h:form>
    </f:view>
 </html>

@@ -8,6 +8,13 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <jta-data-source>java:/PostgresDS</jta-data-source>
 
+        <class>ejb.dto.Category</class>
+        <class>ejb.dto.Dish</class>
+        <class>ejb.dto.Order</class>
+        <class>ejb.dto.User</class>
+        <class>ejb.dto.Bill</class>
+        <class>ejb.dto.Subscription</class>
+
 
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>

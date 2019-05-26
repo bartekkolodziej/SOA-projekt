@@ -9,7 +9,7 @@ import javax.persistence.*;
 public class User extends AbstractDTO{
     @Id
     @GeneratedValue
-    @Column(name = "Id", nullable = false)
+    @Column(name = "id", nullable = false)
     private int id;
 
     @Column(name = "login", nullable = false)
@@ -18,13 +18,13 @@ public class User extends AbstractDTO{
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "Name", nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "Surname", nullable = false)
+    @Column(name = "surname", nullable = false)
     private String surname;
 
-    @Column(name = "Role", nullable = false)
+    @Column(name = "role", nullable = false)
     private String role;
 
 

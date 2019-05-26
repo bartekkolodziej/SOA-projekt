@@ -14,12 +14,6 @@
     <packaging>war</packaging>
 
     <dependencies>
-        <dependency>
-            <groupId>Forum</groupId>
-            <artifactId>EjbApi</artifactId>
-            <version>1.0</version>
-            <scope>compile</scope>
-        </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
         <dependency>
