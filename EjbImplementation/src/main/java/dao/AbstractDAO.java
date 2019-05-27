@@ -9,7 +9,7 @@ import java.util.List;
 
 public abstract class AbstractDAO<T extends AbstractDTO>  {
 
-    private static final String PERSISTENCE_UNIT_NAME = "JPA-projekt";
+    private static final String PERSISTENCE_UNIT_NAME = "JPA-Projekt";
     private String className;
     private Class clazz;
 

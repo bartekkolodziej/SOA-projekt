@@ -9,6 +9,10 @@ import javax.ejb.Stateless;
 
 @Stateless
 public class UserManagerBean implements UserManager {
+
+    public UserManagerBean() {
+    }
+
     public User getUser(Integer userId) {
         return UserDAO.getInstance().getItem(userId);
     }

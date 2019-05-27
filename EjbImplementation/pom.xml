@@ -11,8 +11,6 @@
 
     <artifactId>EjbImplementation</artifactId>
 
-    <packaging>war</packaging>
-
     <dependencies>
 
         <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
