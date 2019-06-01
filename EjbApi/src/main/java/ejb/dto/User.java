@@ -1,12 +1,14 @@
 package ejb.dto;
 
 import javax.persistence.*;
+import java.util.List;
 
 
 @Entity()
 @Table(name = "Users")
 @Access(AccessType.FIELD)
 public class User extends AbstractDTO{
+
     @Id
     @GeneratedValue
     @Column(name = "id", nullable = false)
@@ -27,6 +29,11 @@ public class User extends AbstractDTO{
     @Column(name = "role", nullable = false)
     private String role;
 
+    @OneToMany(mappedBy = "customer", orphanRemoval=true)
+    private List<Order> orders;
+
+    @OneToMany(mappedBy = "customer")
+    private List<Subscription> subscriptions;
 
     public int getId() {
         return id;
@@ -74,5 +81,21 @@ public class User extends AbstractDTO{
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
+    public List<Subscription> getSubscriptions() {
+        return subscriptions;
+    }
+
+    public void setSubscriptions(List<Subscription> subscriptions) {
+        this.subscriptions = subscriptions;
     }
 }

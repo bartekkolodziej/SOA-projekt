@@ -3,6 +3,7 @@ package ejb.dto;
 import javax.persistence.*;
 import org.hibernate.annotations.Cascade;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity()
 @Table(name = "Dishes")
@@ -11,19 +12,23 @@ public class Dish extends AbstractDTO{
 
     @Id
     @GeneratedValue
-    @Column(name = "Id", nullable = false)
+    @Column(name = "id", nullable = false)
     private int id;
 
-    @ManyToOne(cascade = CascadeType.ALL, targetEntity = Category.class)
+    @ManyToOne
+    @JoinColumn(name="category")
     private Category category;
 
-    @Column(name = "Name", nullable = false)
+    @OneToMany(mappedBy = "dish", orphanRemoval=true)
+    private List<OrderedDish> orderedDishes;
+
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "Price", nullable = false)
+    @Column(name = "price", nullable = false)
     private String price;
 
-    @Column(name = "Weight", nullable = false)
+    @Column(name = "weight", nullable = false)
     private String weight;
 
     public int getId() {
@@ -64,5 +69,13 @@ public class Dish extends AbstractDTO{
 
     public void setWeight(String weight) {
         this.weight = weight;
+    }
+
+    public List<OrderedDish> getOrderedDishes() {
+        return orderedDishes;
+    }
+
+    public void setOrderedDishes(List<OrderedDish> orderedDishes) {
+        this.orderedDishes = orderedDishes;
     }
 }

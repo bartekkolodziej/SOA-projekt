@@ -1,6 +1,7 @@
 package ejb.dto;
 
 import javax.persistence.*;
+import java.util.List;
 
 
 @Entity()
@@ -10,11 +11,14 @@ public class Category extends AbstractDTO {
 
     @Id
     @GeneratedValue
-    @Column(name = "Id", nullable = false)
+    @Column(name = "id", nullable = false)
     private int id;
 
-    @Column(name = "Name", nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @OneToMany(mappedBy = "category", orphanRemoval=true)
+    private List<Dish> dishes;
 
     public int getId() {
         return id;

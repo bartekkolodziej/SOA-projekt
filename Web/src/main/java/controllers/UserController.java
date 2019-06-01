@@ -15,58 +15,58 @@ public class UserController implements Serializable {
 
     private UserManagerBean userManagerBean = new UserManagerBean();
 
-    private User user = new User();
+    private String login;
+
+    private String password;
+
+    private String name;
+
+    private String surname;
+
+    private String role;
 
     public String getLogin() {
-        return user.getLogin();
+        return login;
     }
 
     public void setLogin(String login) {
-        user.setLogin(login);
+        this.login = login;
     }
 
     public String getPassword() {
-        return user.getPassword();
+        return password;
     }
 
     public void setPassword(String password) {
-        user.setPassword(password);
+        this.password = password;
     }
 
     public String getName() {
-        return user.getName();
+        return name;
     }
 
     public void setName(String name) {
-        user.setName(name);
+        this.name = name;
     }
 
     public String getSurname() {
-        return user.getSurname();
+        return surname;
     }
 
     public void setSurname(String surname) {
-        user.setSurname(surname);
+        this.surname = surname;
     }
 
     public String getRole() {
-        return user.getRole();
+        return role;
     }
 
     public void setRole(String role) {
-        user.setRole(role);
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
+        this.role = role;
     }
 
     public void register() throws InvalidLoginCredentialsException {
-        System.out.println(this.user);
-        this.userManagerBean.createUser(user.getLogin(), user.getPassword(), user.getName(), user.getSurname(), user.getRole());
+        //System.out.println(this.user);
+        this.userManagerBean.createUser(login, password, name, surname, role);
     }
 }

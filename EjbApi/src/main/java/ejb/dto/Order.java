@@ -13,29 +13,29 @@ public class Order extends AbstractDTO {
 
     @Id
     @GeneratedValue
-    @Column(name = "Id", nullable = false)
+    @Column(name = "id", nullable = false)
     private int id;
 
-    @OneToMany
-    private List<Dish> dishes;
+    @OneToMany(mappedBy = "order", orphanRemoval=true)
+    private List<OrderedDish> orderedDishes;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name="customer")
     private User customer;
 
-    @Column(name = "OrderDate", nullable = false)
+    @Column(name = "orderDate", nullable = false)
     private Date borrowDate;
 
-
-    @Column(name = "OrderFinalisationDate", nullable = false)
+    @Column(name = "orderFinalisationDate", nullable = false)
     private Date returnDueDate;
 
-    @Column(name = "ReturnedDate")
+    @Column(name = "returnedDate")
     private Date returnedDate;
 
-    @Column(name = "Status")
+    @Column(name = "status")
     private String status;
 
-    @Column(name = "Value")
+    @Column(name = "value")
     private String value;
 
     public int getId() {
@@ -44,14 +44,6 @@ public class Order extends AbstractDTO {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public List<Dish> getDishes() {
-        return dishes;
-    }
-
-    public void setDishes(List<Dish> dishes) {
-        this.dishes = dishes;
     }
 
     public User getCustomer() {
@@ -100,5 +92,13 @@ public class Order extends AbstractDTO {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public List<OrderedDish> getOrderedDishes() {
+        return orderedDishes;
+    }
+
+    public void setOrderedDishes(List<OrderedDish> orderedDishes) {
+        this.orderedDishes = orderedDishes;
     }
 }
