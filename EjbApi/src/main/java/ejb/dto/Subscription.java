@@ -18,7 +18,7 @@ public class Subscription extends AbstractDTO{
     private Order order;
 
     @ManyToOne
-    @JoinColumn(name="dish")
+    @JoinColumn(name="customer")
     private User customer;
 
     public int getId() {
