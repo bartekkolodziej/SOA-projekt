@@ -6,18 +6,16 @@ import java.util.List;
 
 @Entity()
 @Table(name = "Categories")
-@Access(AccessType.FIELD)
 public class Category extends AbstractDTO {
 
     @Id
-    @GeneratedValue
     @Column(name = "id", nullable = false)
     private int id;
 
     @Column(name = "name", nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "category", orphanRemoval=true)
+    @OneToMany(mappedBy = "category")
     private List<Dish> dishes;
 
     public int getId() {

@@ -1,22 +1,19 @@
 package ejb.dto;
 
 import javax.persistence.*;
-import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 
 
 @Entity()
 @Table(name = "Orders")
-@Access(AccessType.FIELD)
 public class Order extends AbstractDTO {
 
     @Id
-    @GeneratedValue
     @Column(name = "id", nullable = false)
     private int id;
 
-    @OneToMany(mappedBy = "order", orphanRemoval=true)
+    @OneToMany(mappedBy = "order")
     private List<OrderedDish> orderedDishes;
 
     @ManyToOne

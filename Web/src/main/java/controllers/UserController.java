@@ -66,7 +66,6 @@ public class UserController implements Serializable {
     }
 
     public void register() throws InvalidLoginCredentialsException {
-        //System.out.println(this.user);
         this.userManagerBean.createUser(login, password, name, surname, role);
     }
 }

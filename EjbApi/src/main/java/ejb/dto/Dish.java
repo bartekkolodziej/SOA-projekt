@@ -7,11 +7,9 @@ import java.util.List;
 
 @Entity()
 @Table(name = "Dishes")
-@Access(AccessType.FIELD)
 public class Dish extends AbstractDTO{
 
     @Id
-    @GeneratedValue
     @Column(name = "id", nullable = false)
     private int id;
 
@@ -19,7 +17,7 @@ public class Dish extends AbstractDTO{
     @JoinColumn(name="category")
     private Category category;
 
-    @OneToMany(mappedBy = "dish", orphanRemoval=true)
+    @OneToMany(mappedBy = "dish")
     private List<OrderedDish> orderedDishes;
 
     @Column(name = "name", nullable = false)

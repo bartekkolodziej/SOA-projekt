@@ -4,11 +4,9 @@ import javax.persistence.*;
 
 @Entity()
 @Table(name = "Bills")
-@Access(AccessType.FIELD)
 public class Bill extends AbstractDTO {
 
     @Id
-    @GeneratedValue
     @Column(name = "id", nullable = false)
     private int id;
 

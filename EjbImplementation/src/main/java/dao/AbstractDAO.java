@@ -2,63 +2,111 @@ package dao;
 
 import ejb.dto.AbstractDTO;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import java.util.List;
 
 public abstract class AbstractDAO<T extends AbstractDTO>  {
 
-    private static final String PERSISTENCE_UNIT_NAME = "JPA-Projekt";
     private String className;
     private Class clazz;
-
-    protected EntityManager entityManager;
 
     protected AbstractDAO(Class clazz) {
         this.clazz = clazz;
         className = clazz.getSimpleName();
-        entityManager = Persistence
-                .createEntityManagerFactory(PERSISTENCE_UNIT_NAME)
-                .createEntityManager();
     }
 
     public List<T> getItems() {
-        TypedQuery query = entityManager.createQuery("SELECT data FROM " + className + " data", clazz);
-        return query.getResultList();
+        EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence
+                .createEntityManagerFactory("JPA-Zajecia");
+        EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        EntityTransaction transaction = null;
+        List items = null;
+
+        try {
+            transaction = manager.getTransaction();
+            transaction.begin();
+            items = manager.createQuery("SELECT s FROM " + className + " s", clazz).getResultList();
+            transaction.commit();
+        } catch (Exception ex) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            ex.printStackTrace();
+        } finally {
+            manager.close();
+        }
+        return items;
     }
 
     public T getItem(Integer itemId) {
-        TypedQuery query = entityManager.createQuery("SELECT c FROM " + className + " c WHERE c.id = :id", clazz);
-        query.setParameter("id", itemId);
-        return (T) query.getSingleResult();
+        EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence
+                .createEntityManagerFactory("JPA-Zajecia");
+        EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        EntityTransaction transaction = null;
+        T item = null;
+
+        try {
+            transaction = manager.getTransaction();
+            transaction.begin();
+            TypedQuery query = manager.createQuery("SELECT c FROM " + className + " c WHERE c.id = :id", clazz);
+            query.setParameter("id", itemId);
+            transaction.commit();
+            item = (T) query.getSingleResult();
+        } catch (Exception ex) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            ex.printStackTrace();
+        } finally {
+            manager.close();
+        }
+        return item;
     }
 
     public void addItem(T item) {
+        EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence
+                .createEntityManagerFactory("JPA-Projekt");
+        EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        EntityTransaction transaction = null;
+
         try {
-            entityManager.persist(item);
-            entityManager.getTransaction().commit();
-        } catch (Exception e) {
-            entityManager.getTransaction().rollback();
+            transaction = manager.getTransaction();
+            transaction.begin();
+            manager.persist(item);
+            transaction.commit();
+        } catch (Exception ex) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            ex.printStackTrace();
+        } finally {
+            manager.close();
         }
     }
 
     public void updateItem(T item) {
-        if (!entityManager.getTransaction().isActive()) {
-            entityManager.getTransaction().begin();
-        }
-        entityManager.merge(item);
-        entityManager.getTransaction().commit();
-    }
-
-    public void deleteItem(T item) {
-        entityManager.remove(entityManager.contains(item) ? item : entityManager.merge(item));
-        entityManager.getTransaction().commit();
+       //TODO
     }
 
     public void deleteItem(Integer itemId) {
-        T item = getItem(itemId);
-        deleteItem(item);
-    }
+        EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence
+                .createEntityManagerFactory("JPA-Zajecia");
+        EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        EntityTransaction transaction = null;
 
+        try {
+            transaction = manager.getTransaction();
+            transaction.begin();
+            T itemToRemove = (T) manager.find(clazz, itemId);
+            manager.remove(itemToRemove);
+            transaction.commit();
+        } catch (Exception ex) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            ex.printStackTrace();
+        } finally {
+            manager.close();
+        }
+    }
 }

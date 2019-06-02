@@ -5,11 +5,9 @@ import javax.persistence.*;
 
 @Entity()
 @Table(name = "OrderedDishes")
-@Access(AccessType.FIELD)
 public class OrderedDish extends AbstractDTO {
 
     @Id
-    @GeneratedValue
     @Column(name = "id", nullable = false)
     private int id;
 

@@ -6,6 +6,7 @@ import ejb.exceptions.InvalidLoginCredentialsException;
 import ejb.interfaces.UserManager;
 
 import javax.ejb.Stateless;
+import java.util.Random;
 
 @Stateless
 public class UserManagerBean implements UserManager {
@@ -23,11 +24,14 @@ public class UserManagerBean implements UserManager {
 
     public void createUser(String login, String password, String name, String surname, String role) {
         User user = new User();
+        Random generator = new Random();
+        user.setId(generator.nextInt(999999)); //TODO - zrobic automatyczne generowanie ID dla kazdej klasy
         user.setLogin(login);
         user.setPassword(password);
         user.setName(name);
         user.setSurname(surname);
         user.setRole(role);
+        System.out.println("creating user");
         UserDAO.getInstance().addItem(user);
     }
 }

@@ -6,11 +6,9 @@ import java.util.List;
 
 @Entity()
 @Table(name = "Users")
-@Access(AccessType.FIELD)
 public class User extends AbstractDTO{
 
     @Id
-    @GeneratedValue
     @Column(name = "id", nullable = false)
     private int id;
 
@@ -29,7 +27,7 @@ public class User extends AbstractDTO{
     @Column(name = "role", nullable = false)
     private String role;
 
-    @OneToMany(mappedBy = "customer", orphanRemoval=true)
+    @OneToMany(mappedBy = "customer")
     private List<Order> orders;
 
     @OneToMany(mappedBy = "customer")

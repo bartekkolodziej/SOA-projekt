@@ -4,10 +4,8 @@ import javax.persistence.*;
 
 @Entity()
 @Table(name = "Subscriptions")
-@Access(AccessType.FIELD)
 public class Subscription extends AbstractDTO{
     @Id
-    @GeneratedValue
     @Column(name = "id", nullable = false)
     private int id;
 
