@@ -17,7 +17,7 @@ public abstract class AbstractDAO<T extends AbstractDTO>  {
 
     public List<T> getItems() {
         EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence
-                .createEntityManagerFactory("JPA-Zajecia");
+                .createEntityManagerFactory("JPA-Projekt");
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
         List items = null;
@@ -40,7 +40,7 @@ public abstract class AbstractDAO<T extends AbstractDTO>  {
 
     public T getItem(Integer itemId) {
         EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence
-                .createEntityManagerFactory("JPA-Zajecia");
+                .createEntityManagerFactory("JPA-Projekt");
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
         T item = null;
@@ -90,7 +90,7 @@ public abstract class AbstractDAO<T extends AbstractDTO>  {
 
     public void deleteItem(Integer itemId) {
         EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence
-                .createEntityManagerFactory("JPA-Zajecia");
+                .createEntityManagerFactory("JPA-Projekt");
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
 

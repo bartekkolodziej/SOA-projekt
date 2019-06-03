@@ -10,8 +10,8 @@ public class Bill extends AbstractDTO {
     @Column(name = "id", nullable = false)
     private int id;
 
-    @Column(name = "value", nullable = false)
-    private double value;
+    @Column(name = "finalValue", nullable = false) //TODO - to powinien byc typ double, ale postgres sypie errorami gdy sie tak dzieje
+    private int finalValue;
 
     @OneToOne
     private User customer;
@@ -24,12 +24,12 @@ public class Bill extends AbstractDTO {
         this.id = id;
     }
 
-    public double getValue() {
-        return value;
+    public double getFinalValue() {
+        return finalValue;
     }
 
-    public void setValue(double value) {
-        this.value = value;
+    public void setFinalValue(int finalValue) {
+        this.finalValue = finalValue;
     }
 
     public User getCustomer() {

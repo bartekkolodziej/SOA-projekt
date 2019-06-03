@@ -31,7 +31,6 @@ public class UserManagerBean implements UserManager {
         user.setName(name);
         user.setSurname(surname);
         user.setRole(role);
-        System.out.println("creating user");
         UserDAO.getInstance().addItem(user);
     }
 }

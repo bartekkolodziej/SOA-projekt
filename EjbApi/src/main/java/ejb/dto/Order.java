@@ -21,13 +21,10 @@ public class Order extends AbstractDTO {
     private User customer;
 
     @Column(name = "orderDate", nullable = false)
-    private Date borrowDate;
+    private Date orderDate;
 
     @Column(name = "orderFinalisationDate", nullable = false)
-    private Date returnDueDate;
-
-    @Column(name = "returnedDate")
-    private Date returnedDate;
+    private Date finalisationDate;
 
     @Column(name = "status")
     private String status;
@@ -51,28 +48,20 @@ public class Order extends AbstractDTO {
         this.customer = customer;
     }
 
-    public Date getBorrowDate() {
-        return borrowDate;
+    public Date getorderDate() {
+        return orderDate;
     }
 
-    public void setBorrowDate(Date borrowDate) {
-        this.borrowDate = borrowDate;
+    public void setorderDate(Date orderDate) {
+        this.orderDate = orderDate;
     }
 
-    public Date getReturnDueDate() {
-        return returnDueDate;
+    public Date getfinalisationDate() {
+        return finalisationDate;
     }
 
-    public void setReturnDueDate(Date returnDueDate) {
-        this.returnDueDate = returnDueDate;
-    }
-
-    public Date getReturnedDate() {
-        return returnedDate;
-    }
-
-    public void setReturnedDate(Date returnedDate) {
-        this.returnedDate = returnedDate;
+    public void setfinalisationDate(Date finalisationDate) {
+        this.finalisationDate = finalisationDate;
     }
 
     public String getStatus() {

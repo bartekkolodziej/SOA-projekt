@@ -15,5 +15,9 @@
         Role: <h:inputText value="#{UserController.role}"/> <br/>
         <h:commandButton value="Register" onclick="#{UserController.register()}" />
       </h:form>
+       <h:form>
+           Bill Value: <h:inputText value="#{BillController.finalValue}"/> <br/>
+           <h:commandButton value="Register" onclick="#{BillController.addBill()}" />
+       </h:form>
    </f:view>
 </html>
