@@ -1,6 +1,5 @@
 package controllers;
 
-import dao.UserDAO;
 import ejb.implementation.BillManagerBean;
 
 import javax.faces.bean.ManagedBean;
@@ -13,6 +12,16 @@ public class BillController implements Serializable {
 
     private BillManagerBean billManagerBean = new BillManagerBean();
 
+    private String customerName;
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
     private int finalValue;
 
     public int getFinalValue() {
@@ -24,6 +33,6 @@ public class BillController implements Serializable {
     }
 
     public void addBill(){
-        this.billManagerBean.addBill(this.finalValue, UserDAO.getInstance().getItems().get(0));
+        this.billManagerBean.addBill(this.finalValue, this.customerName);
     }
 }

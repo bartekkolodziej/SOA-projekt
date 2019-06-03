@@ -12,10 +12,10 @@ public class OrderedDish extends AbstractDTO {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name="dish")
+    @JoinColumn(name="dish_id")
     private Dish dish;
 
     @ManyToOne
-    @JoinColumn(name = "order")
+    @JoinColumn(name = "order_id")
     private Order order;
 }

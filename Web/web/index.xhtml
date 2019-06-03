@@ -13,11 +13,29 @@
         Name: <h:inputText value="#{UserController.name}"/> <br/>
         Surname: <h:inputText value="#{UserController.surname}"/> <br/>
         Role: <h:inputText value="#{UserController.role}"/> <br/>
-        <h:commandButton value="Register" onclick="#{UserController.register()}" />
+        <h:commandButton value="Register" onclick="#{UserController.register()}" /> <br/>
       </h:form>
        <h:form>
-           Bill Value: <h:inputText value="#{BillController.finalValue}"/> <br/>
-           <h:commandButton value="Register" onclick="#{BillController.addBill()}" />
+           Bill value: <h:inputText value="#{BillController.finalValue}"/> <br/>
+           Customer:
+           <h:selectOneMenu value="#{BillController.customerName}">
+               <f:selectItem itemValue = "Bartek" itemLabel = "Bartek" />
+           </h:selectOneMenu> <br/>
+           <h:commandButton value="Add new bill" onclick="#{BillController.addBill()}" /> <br/>
+       </h:form>
+       <h:form>
+           Dish name: <h:inputText value="#{DishController.name}"/> <br/>
+           Dish price: <h:inputText value="#{DishController.price}"/> <br/>
+           Dish weight: <h:inputText value="#{DishController.weight}"/> <br/>
+           Category:
+           <h:selectOneMenu value="#{DishController.categoryName}">
+               <f:selectItem itemValue = "Dania miesne" itemLabel = "Dania miesne" />
+           </h:selectOneMenu> <br/>
+           <h:commandButton value="Add new dish" onclick="#{DishController.addDish()}" /> <br/>
+       </h:form>
+       <h:form>
+           Category name: <h:inputText value="#{CategoryController.name}"/> <br/>
+           <h:commandButton value="Add new category" onclick="#{CategoryController.addCategory()}" /> <br/>
        </h:form>
        <h:form>
            Customer:<h:inputText value="#{OrderController.customer}"/><br/>

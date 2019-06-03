@@ -17,7 +17,7 @@ public class Order extends AbstractDTO {
     private List<OrderedDish> orderedDishes;
 
     @ManyToOne
-    @JoinColumn(name="customer")
+    @JoinColumn(name="customer_id")
     private User customer;
 
     @Column(name = "orderDate", nullable = false)

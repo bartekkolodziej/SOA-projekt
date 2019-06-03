@@ -6,16 +6,25 @@ import ejb.exceptions.InvalidLoginCredentialsException;
 import ejb.interfaces.UserManager;
 
 import javax.ejb.Stateless;
+import java.util.List;
 import java.util.Random;
 
 @Stateless
 public class UserManagerBean implements UserManager {
 
-    public UserManagerBean() {
-    }
-
     public User getUser(Integer userId) {
         return UserDAO.getInstance().getItem(userId);
+    }
+
+    public User getUser(String userName) {
+        List<User> users = UserDAO.getInstance().getItems();
+
+        for (User user : users) {
+            if (user.getName().equals(userName))
+                return user;
+        }
+
+        return null;
     }
 
     public User loginUser(String username, String password) throws InvalidLoginCredentialsException {
