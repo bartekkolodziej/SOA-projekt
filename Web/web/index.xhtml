@@ -6,18 +6,22 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
    <f:view>
-      <h:outputLabel value="Hello, world"/>
+      <h:outputLabel price="Hello, world"/>
       <h:form>
-        Login: <h:inputText value="#{UserController.login}"/> <br/>
-        Password: <h:inputSecret value="#{UserController.password}"/> <br/>
-        Name: <h:inputText value="#{UserController.name}"/> <br/>
-        Surname: <h:inputText value="#{UserController.surname}"/> <br/>
-        Role: <h:inputText value="#{UserController.role}"/> <br/>
-        <h:commandButton value="Register" onclick="#{UserController.register()}" />
+        Login: <h:inputText price="#{UserController.login}"/> <br/>
+        Password: <h:inputSecret price="#{UserController.password}"/> <br/>
+        Name: <h:inputText price="#{UserController.name}"/> <br/>
+        Surname: <h:inputText price="#{UserController.surname}"/> <br/>
+        Role: <h:inputText price="#{UserController.role}"/> <br/>
+        <h:commandButton price="Register" onclick="#{UserController.register()}" />
       </h:form>
        <h:form>
-           Bill Value: <h:inputText value="#{BillController.finalValue}"/> <br/>
-           <h:commandButton value="Register" onclick="#{BillController.addBill()}" />
+           Bill Value: <h:inputText price="#{BillController.finalValue}"/> <br/>
+           <h:commandButton price="Register" onclick="#{BillController.addBill()}" />
+       </h:form>
+       <h:form>
+           Customer:<h:inputText price="#{OrderController.customer}"/><br/>
+           <h:commandButton price="Order" onclick="#{OrderController.addOrder}" />
        </h:form>
    </f:view>
 </html>

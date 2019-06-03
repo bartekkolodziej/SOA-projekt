@@ -29,8 +29,8 @@ public class Order extends AbstractDTO {
     @Column(name = "status")
     private String status;
 
-    @Column(name = "value")
-    private String value;
+    @Column(name = "price")
+    private Double price;
 
     public int getId() {
         return id;
@@ -72,12 +72,12 @@ public class Order extends AbstractDTO {
         this.status = status;
     }
 
-    public String getValue() {
-        return value;
+    public Double getPrice() {
+        return price;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setPrice(Double value) {
+        this.price = value;
     }
 
     public List<OrderedDish> getOrderedDishes() {

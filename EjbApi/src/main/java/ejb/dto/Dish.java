@@ -1,8 +1,6 @@
 package ejb.dto;
 
 import javax.persistence.*;
-import org.hibernate.annotations.Cascade;
-import java.io.Serializable;
 import java.util.List;
 
 @Entity()
@@ -24,7 +22,7 @@ public class Dish extends AbstractDTO{
     private String name;
 
     @Column(name = "price", nullable = false)
-    private String price;
+    private Double price;
 
     @Column(name = "weight", nullable = false)
     private String weight;
@@ -53,11 +51,11 @@ public class Dish extends AbstractDTO{
         this.name = name;
     }
 
-    public String getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
