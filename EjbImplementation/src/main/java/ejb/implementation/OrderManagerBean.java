@@ -13,8 +13,13 @@ import java.util.Random;
 public class OrderManagerBean implements OrderManager {
 
     @Override
+    public List<Order> getOrders() {
+        return OrderDAO.getInstance().getItems();
+    }
+
+    @Override
     public Order getOrder(int orderId) {
-        return null;
+        return OrderDAO.getInstance().getItem(orderId);
     }
 
     @Override

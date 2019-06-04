@@ -33,4 +33,12 @@ public class Category extends AbstractDTO {
     public void setName(String name) {
         this.name = name;
     }
+
+    public List<Dish> getDishes() {
+        return dishes;
+    }
+
+    public void setDishes(List<Dish> dishes) {
+        this.dishes = dishes;
+    }
 }

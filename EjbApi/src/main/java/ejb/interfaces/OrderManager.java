@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface OrderManager {
 
+    List<Order> getOrders();
     Order getOrder(int orderId);
     void addOrder(List<OrderedDish> orderedDishes, User customer, Date orderDate, Date finalisationDate, String status, Double price);
 }

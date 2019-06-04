@@ -1,6 +1,7 @@
 package controllers;
 
 
+import dao.CategoryDAO;
 import ejb.dto.Category;
 import ejb.dto.Dish;
 import ejb.dto.OrderedDish;
@@ -9,6 +10,7 @@ import ejb.implementation.OrderManagerBean;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +20,7 @@ public class OrderController {
 
     OrderManagerBean orderManagerBean = new OrderManagerBean();
 
-    private List<OrderedDish> orderedDishes;
+    private List<OrderedDish> orderedDishes = new ArrayList<>();
 
     private User customer;
 
@@ -90,6 +92,7 @@ public class OrderController {
     }
 
     public void addOrder(){
+        //TODO - finish adding order
         status = "ordered";
         price = 5.00;
         orderDate = new Date();
@@ -97,13 +100,11 @@ public class OrderController {
     }
 
     public List<Category> getCategories(){
-        //TODO - code returning list of categories
-        return null;
+        return CategoryDAO.getInstance().getItems();
     }
 
     public List<Dish> getDishes(){
-        //TODO - code returning list of dishes according to selected category
-        return null;
+        return selectedCategory.getDishes();
     }
 
     public void addDish(Dish dish){
