@@ -20,7 +20,7 @@ public class OrderController {
 
     OrderManagerBean orderManagerBean = new OrderManagerBean();
 
-    private List<OrderedDish> orderedDishes = new ArrayList<>();
+    private List<Dish> orderedDishes = new ArrayList<>();
 
     private User customer;
 
@@ -34,11 +34,13 @@ public class OrderController {
 
     private Category selectedCategory;
 
-    public List<OrderedDish> getOrderedDishes() {
+    private List<Dish> availableDishes;
+
+    public List<Dish> getOrderedDishes() {
         return orderedDishes;
     }
 
-    public void setOrderedDishes(List<OrderedDish> orderedDishes) {
+    public void setOrderedDishes(List<Dish> orderedDishes) {
         this.orderedDishes = orderedDishes;
     }
 
@@ -96,18 +98,26 @@ public class OrderController {
         status = "ordered";
         price = 5.00;
         orderDate = new Date();
-        this.orderManagerBean.addOrder(orderedDishes,customer,orderDate,finalisationDate,status, price);
+        this.orderManagerBean.addOrder(new ArrayList<>(),customer,orderDate,finalisationDate,status, price);
     }
 
     public List<Category> getCategories(){
         return CategoryDAO.getInstance().getItems();
     }
 
-    public List<Dish> getDishes(){
-        return selectedCategory.getDishes();
+    public void changeCategory(){
+        availableDishes = selectedCategory.getDishes();
     }
 
     public void addDish(Dish dish){
-        //TODO - code adding dish to list of ordered dishes
+        orderedDishes.add(dish);
+    }
+
+    public List<Dish> getAvailableDishes() {
+        return availableDishes;
+    }
+
+    public void setAvailableDishes(List<Dish> availableDishes) {
+        this.availableDishes = availableDishes;
     }
 }

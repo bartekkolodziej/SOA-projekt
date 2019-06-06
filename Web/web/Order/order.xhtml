@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xml:lang="en" lang="en">
+<head>
+    <title>Title</title>
+</head>
+<body>
+<h:form>
+    <h:selectOneListbox value = "#{OrderController.selectedCategory}" >
+        <f:selectItems value="#{OrderController.categories}" var="category" itemLabel="#{category.name}"/>
+        <f:ajax listener="#{OrderController.changeCategory}" render="dishes" />
+    </h:selectOneListbox>
+    <h:panelGroup id = "dishes">
+        <br/>
+        <h:dataTable value = "#{OrderController.availableDishes}" var = "dish" rendered="#{not empty OrderController.availableDishes}">
+            <h:column>
+                <f:facet name = "header">Name</f:facet>
+                #{dish.name}
+            </h:column>
+            <h:column>
+                <f:facet name = "header">Weight</f:facet>
+                #{dish.weight}
+            </h:column>
+            <h:column>
+                <f:facet name = "header">Price</f:facet>
+                #{dish.price}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <h:commandLink value="Add" action="#{OrderController.addDish(dish)}" >
+                    <f:ajax render = "ordered"/>
+                </h:commandLink>
+            </h:column>
+        </h:dataTable>
+    </h:panelGroup>
+    <h:commandButton value = "Order" action="#{Manager.order}">
+
+    </h:commandButton>
+</h:form>
+<h:dataTable value = "#{OrderController.orderedDishes}" var = "order" rendered="#{not empty OrderController.orderedDishes}" id = "ordered">
+    <p>Ordered dishes</p>
+    <h:column>
+        <f:facet name = "header">Name</f:facet>
+        #{dish.name}
+    </h:column>
+    <h:column>
+        <f:facet name = "header">Weight</f:facet>
+        #{dish.weight}
+    </h:column>
+    <h:column>
+        <f:facet name = "header">Price</f:facet>
+        #{dish.price}
+    </h:column>
+</h:dataTable>
+</body>
+</html>
