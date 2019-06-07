@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xml:lang="en" lang="en">
+<head>
+    <title>Title</title>
+</head>
+<body>
+<h:outputLabel value="Hello, world"/>
+<h:form>
+    Login: <h:inputText value="#{UserController.login}"/> <br/>
+    Password: <h:inputSecret value="#{UserController.password}"/> <br/>
+    Name: <h:inputText value="#{UserController.name}"/> <br/>
+    Surname: <h:inputText value="#{UserController.surname}"/> <br/>
+    Role: <h:inputText value="#{UserController.role}"/> <br/>
+    <h:commandButton value="Register" onclick="#{UserController.register()}" /> <br/>
+</h:form>
+
+</body>
+</html>

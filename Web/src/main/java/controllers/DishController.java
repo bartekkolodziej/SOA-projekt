@@ -1,11 +1,13 @@
 package controllers;
 
+import dao.CategoryDAO;
 import ejb.dto.Category;
 import ejb.implementation.DishManagerBean;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import java.io.Serializable;
+import java.util.List;
 
 @SessionScoped
 @ManagedBean(name = "DishController")
@@ -56,5 +58,9 @@ public class DishController implements Serializable {
     public void addDish() {
         System.out.println("Category name: " + this.categoryName);
         this.dishManagerBean.addDish(this.name, this.weight, this.price, this.categoryName);
+    }
+
+    public List<Category> getCategories(){
+        return CategoryDAO.getInstance().getItems();
     }
 }
