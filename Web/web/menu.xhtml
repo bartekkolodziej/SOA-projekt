@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+    <style type="text/css">
+        li {
+            margin: 8px;
+        }
+    </style>
+    <f:verbatim>
+        <script type="text/javascript" language="JavaScript">
+            window.onload = function () {
+                getCategoriesFromDB();
+            };
+        </script>
+    </f:verbatim>
+</h:head>
+<h:body>
+    <div id="menu">
+        <h1>Menu</h1>
+        <ol>
+            <ui:repeat value="#{MenuController.categories}" var="category">
+                <li>
+                    <div style="display: flex; justify-content:space-between; width: 400px; border: 1px solid grey; padding: 8px">
+                        #{category.name}
+                        <h:form>
+                            <h:commandButton action="#{CategoryController.redirectToCategoryPage(category)}" value="Edit"/>
+                            <h:commandButton action="#{CategoryController.removeCategory(category.id)}" value="Remove"/>
+                        </h:form>
+                    </div>
+                    <ul>
+                        <ui:repeat value="#{category.dishes}" var="dish">
+                            <li style="display: flex; justify-content:space-between; width: 400px; border: 1px solid grey; padding: 8px">
+                                <div>Dish: #{dish.name} <br/>
+                                    Weight: #{dish.weight} <br/>
+                                    Price #{dish.price} <br/>
+                                </div>
+                                <h:form>
+                                    <h:commandButton action="#{DishController.orderDish(dish)}" value="Order"/>
+                                    <br/>
+                                    <h:commandButton action="#{DishController.redirectToDishPage(dish)}"
+                                                     value="Edit"/> <br/>
+                                    <h:commandButton action="#{DishController.removeDish(dish.id)}" value="Remove"/>
+                                    <br/>
+                                </h:form>
+                            </li>
+                        </ui:repeat>
+                    </ul>
+                </li>
+            </ui:repeat>
+        </ol>
+    </div>
+
+    <div id="editButtons">
+        <h:form>
+            <h:commandButton action="#{CategoryController.redirectToCategoryPage(null)}" value="Add new category"/>
+            <br/>
+            <h:commandButton action="#{DishController.redirectToDishPage(null)}" value="Add new dish"/> <br/>
+        </h:form>
+    </div>
+
+
+    <h:form>
+        <p:remoteCommand name="getCategoriesFromDB" action="#{MenuController.getCategoriesFromDB()}"/>
+    </h:form>
+</h:body>
+</html>

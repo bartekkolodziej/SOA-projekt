@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" xml:lang="en" lang="en">
+<head>
+    <title>Dish manager</title>
+</head>
+<body>
+<h:form>
+    <h:button outcome="menu" value="Back"/>
+    <br/>
+    <br/>
+
+    <h:panelGroup  rendered="#{DishController.action.equals('add')}">
+        <h1>Add new dish</h1>
+    </h:panelGroup>
+
+    <h:panelGroup  rendered="#{DishController.action.equals('edit')}">
+        <h1>Edit dish</h1>
+    </h:panelGroup>
+
+    Dish name: <h:inputText value="#{DishController.dish.name}"/> <br/>
+    Dish price: <h:inputText value="#{DishController.dish.price}"/> <br/>
+    Dish weight: <h:inputText value="#{DishController.dish.weight}"/> <br/>
+    Category:
+    <!--TODO problem tutaj jest-->
+    <h:selectOneMenu value="#{DishController.categoryName}">
+        <f:selectItems value="#{DishController.categories}" var = "category" itemValue="#{category.name}" itemLabel="#{category.name}"/>
+    </h:selectOneMenu> <br/>
+    <h:commandButton value="Add dish" onclick="#{DishController.addDish()}" /> <br/>
+</h:form>
+</body>
+</html>

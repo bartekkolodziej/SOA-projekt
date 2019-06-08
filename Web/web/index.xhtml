@@ -34,12 +34,12 @@
            <h:commandButton value="Add new dish" onclick="#{DishController.addDish()}" /> <br/>
        </h:form>
        <h:form>
-           Category name: <h:inputText value="#{CategoryController.name}"/> <br/>
-           <h:commandButton value="Add new category" onclick="#{CategoryController.addCategory()}" /> <br/>
+           Category name: <h:inputText value="#{MenuController.name}"/> <br/>
+           <h:commandButton value="Add new category" onclick="#{MenuController.addCategory()}" /> <br/>
        </h:form>
        <h:form>
            Customer:<h:inputText value="#{OrderController.customer}"/><br/>
-           <h:commandButton value="Order" onclick="#{OrderController.addOrder}" />
+           <h:commandButton value="Order" onclick="#{OrderController.addOrder()}" />
        </h:form>
    </f:view>
 </html>

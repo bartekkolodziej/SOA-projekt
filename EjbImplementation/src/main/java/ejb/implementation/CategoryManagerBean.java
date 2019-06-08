@@ -28,11 +28,9 @@ public class CategoryManagerBean implements CategoryManager {
         return CategoryDAO.getInstance().getItems();
     }
 
-    public void addCategory(String name) {
-        Category category = new Category();
+    public void addCategory(Category category) {
         Random generator = new Random();
         category.setId(generator.nextInt(999999)); //TODO - zrobic automatyczne generowanie ID dla kazdej klasy
-        category.setName(name);
         CategoryDAO.getInstance().addItem(category);
     }
 }

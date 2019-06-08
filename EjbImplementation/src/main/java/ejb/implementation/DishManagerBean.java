@@ -9,7 +9,6 @@ import java.util.Random;
 
 public class DishManagerBean implements DishManager {
 
-    private CategoryManagerBean categoryManagerBean = new CategoryManagerBean();
 
     public List<Dish> getDishes() {
         return DishDAO.getInstance().getItems();
@@ -29,15 +28,10 @@ public class DishManagerBean implements DishManager {
         return null;
     }
 
-    public void addDish(String name, Integer weight, Integer price, String categoryName) {
-        Dish dish = new Dish();
+    public void addDish(Dish dish) {
         Random generator = new Random();
         dish.setId(generator.nextInt(999999)); //TODO - zrobic automatyczne generowanie ID dla kazdej klasy
-        dish.setName(name);
-        dish.setWeight(weight);
-        dish.setPrice(price);
-        dish.setCategory(this.categoryManagerBean.getCategory(categoryName)); //TODO - zrobic dodawanie kategorii
-
+        System.out.println("Dsih category:  " + dish.getCategory());
         DishDAO.getInstance().addItem(dish);
     }
 }

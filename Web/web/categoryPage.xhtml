@@ -8,7 +8,11 @@
 </head>
 <body>
 <h:form>
-    Category name: <h:inputText value="#{CategoryController.name}"/> <br/>
+    <h:button outcome="menu" value="Back"/>
+    <br/>
+    <br/>
+    <h1>Add category</h1>
+    Category name: <h:inputText value="#{CategoryController.category.name}"/> <br/>
     <h:commandButton value="Add new category" onclick="#{CategoryController.addCategory()}" /> <br/>
 </h:form>
 </body>

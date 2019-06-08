@@ -1,7 +1,10 @@
 package controllers;
 
 import dao.CategoryDAO;
+import dao.DishDAO;
 import ejb.dto.Category;
+import ejb.dto.Dish;
+import ejb.implementation.CategoryManagerBean;
 import ejb.implementation.DishManagerBean;
 
 import javax.faces.bean.ManagedBean;
@@ -15,11 +18,11 @@ public class DishController implements Serializable {
 
     private DishManagerBean dishManagerBean = new DishManagerBean();
 
-    private String name;
+    private CategoryManagerBean categoryManagerBean = new CategoryManagerBean();
 
-    private int price;
+    private Dish dish = new Dish();
 
-    private int weight;
+    private String action;
 
     private String categoryName;
 
@@ -31,36 +34,41 @@ public class DishController implements Serializable {
         this.categoryName = categoryName;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public int getWeight() {
-        return weight;
-    }
-
-    public void setWeight(int weight) {
-        this.weight = weight;
-    }
-
     public void addDish() {
-        System.out.println("Category name: " + this.categoryName);
-        this.dishManagerBean.addDish(this.name, this.weight, this.price, this.categoryName);
+        System.out.println("KKKKKKKKKKEfdsdses");
+        dish.setCategory(categoryManagerBean.getCategory(this.categoryName));
+        this.dishManagerBean.addDish(dish);
+    }
+
+    public Dish getDish() {
+        return dish;
+    }
+
+    public void setDish(Dish dish) {
+        this.dish = dish;
+    }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
     }
 
     public List<Category> getCategories(){
         return CategoryDAO.getInstance().getItems();
+    }
+
+    public void removeDish(Integer dishId) {
+        DishDAO.getInstance().deleteItem(dishId);
+    }
+
+    public String redirectToDishPage(Dish dish){
+        if(dish != null)
+            setAction("edit");
+        else
+            setAction("add");
+        return "dishPage?faces-redirect=true";
     }
 }
