@@ -3,15 +3,21 @@ package controllers;
 import dao.CategoryDAO;
 
 import ejb.dto.Category;
+import ejb.dto.Dish;
 
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.view.ViewScoped;
 import java.util.List;
 
-@SessionScoped
+@javax.faces.bean.ViewScoped
 @ManagedBean(name = "MenuController")
 public class MenuController {
+
+    public MenuController() {
+        this.getCategoriesFromDB();
+    }
 
     private List<Category> categories;
 
@@ -23,11 +29,8 @@ public class MenuController {
         this.categories = categories;
     }
 
-    public MenuController() {
-        this.getCategoriesFromDB();
-    }
-
-    public void getCategoriesFromDB() {
+    public void getCategoriesFromDB(){
         this.categories = CategoryDAO.getInstance().getItems();
     }
+
 }

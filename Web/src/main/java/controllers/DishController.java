@@ -20,7 +20,7 @@ public class DishController implements Serializable {
 
     private CategoryManagerBean categoryManagerBean = new CategoryManagerBean();
 
-    private Dish dish = new Dish();
+    private Dish dish;
 
     private String action;
 
@@ -35,7 +35,6 @@ public class DishController implements Serializable {
     }
 
     public void addDish() {
-        System.out.println("KKKKKKKKKKEfdsdses");
         dish.setCategory(categoryManagerBean.getCategory(this.categoryName));
         this.dishManagerBean.addDish(dish);
     }
@@ -60,15 +59,27 @@ public class DishController implements Serializable {
         return CategoryDAO.getInstance().getItems();
     }
 
+    public void updateDish(){
+       DishDAO.getInstance().updateItem(dish);
+    }
+
     public void removeDish(Integer dishId) {
+        System.out.println("dsh id: " + dishId);
         DishDAO.getInstance().deleteItem(dishId);
     }
 
+    public void orderDish(Dish dish){
+    }
+
     public String redirectToDishPage(Dish dish){
-        if(dish != null)
+        if(dish != null) {
+            this.dish = dish;
             setAction("edit");
-        else
+        }
+        else {
             setAction("add");
+            this.dish = new Dish();
+        }
         return "dishPage?faces-redirect=true";
     }
 }

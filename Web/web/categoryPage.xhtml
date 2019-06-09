@@ -2,7 +2,8 @@
 <!DOCTYPE html
         PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xml:lang="en" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xml:lang="en" lang="en">
 <head>
     <title>Title</title>
 </head>
@@ -11,9 +12,23 @@
     <h:button outcome="menu" value="Back"/>
     <br/>
     <br/>
-    <h1>Add category</h1>
+
+    <h:panelGroup  rendered="#{CategoryController.action.equals('add')}">
+        <h1>Add new category</h1>
+    </h:panelGroup>
+
+    <h:panelGroup  rendered="#{CategoryController.action.equals('edit')}">
+        <h1>Edit category</h1>
+    </h:panelGroup>
     Category name: <h:inputText value="#{CategoryController.category.name}"/> <br/>
-    <h:commandButton value="Add new category" onclick="#{CategoryController.addCategory()}" /> <br/>
+
+    <h:panelGroup  rendered="#{CategoryController.action.equals('add')}">
+        <h:commandButton value="Add category" action="#{CategoryController.addCategory()}" /> <br/>
+    </h:panelGroup>
+
+    <h:panelGroup  rendered="#{CategoryController.action.equals('edit')}">
+        <h:commandButton value="Edit category" action="#{CategoryController.updateCategory()}"/>
+    </h:panelGroup>
 </h:form>
 </body>
 </html>

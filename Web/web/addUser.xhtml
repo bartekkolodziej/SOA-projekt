@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<f:view>
+    <h:panelGroup rendered="#{UserController.action.equals('register')}">
+        <h1>Registration</h1>
+        <h:form>
+            Login: <h:inputText value="#{UserController.user.login}"/> <br/>
+            Password: <h:inputSecret value="#{UserController.user.password}"/> <br/>
+            Name: <h:inputText value="#{UserController.user.name}"/> <br/>
+            Surname: <h:inputText value="#{UserController.user.surname}"/> <br/>
+            Role:
+            <h:selectOneMenu value="#{UserController.user.role}">
+                <f:selectItems value="#{UserController.roles}" var="role" itemValue="#{role}"
+                               itemLabel="#{role}"/>
+            </h:selectOneMenu> <br/>
+            <h:commandButton value="Register" action="#{UserController.register()}"/> <br/>
+        </h:form>
+    </h:panelGroup>
+
+    <h:panelGroup rendered="#{UserController.action.equals('login')}">
+        <h1>Login</h1>
+        <h:form>
+            Login: <h:inputText value="#{UserController.user.login}"/> <br/>
+            Password: <h:inputSecret value="#{UserController.user.password}"/> <br/>
+            <h:commandButton value="Login" action="#{UserController.login()}"/> <br/>
+        </h:form>
+    </h:panelGroup>
+
+    <div style="position: absolute; top: 0; right: 0">
+        <h:panelGroup rendered="#{!ApplicationController.loginAndRegistrationStatus.equals('')}">
+            <h:outputText value="#{ApplicationController.loginAndRegistrationStatus}"/>
+        </h:panelGroup>
+    </div>
+
+</f:view>
+</html>

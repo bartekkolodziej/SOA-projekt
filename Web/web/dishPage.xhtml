@@ -25,11 +25,18 @@
     Dish price: <h:inputText value="#{DishController.dish.price}"/> <br/>
     Dish weight: <h:inputText value="#{DishController.dish.weight}"/> <br/>
     Category:
-    <!--TODO problem tutaj jest-->
     <h:selectOneMenu value="#{DishController.categoryName}">
         <f:selectItems value="#{DishController.categories}" var = "category" itemValue="#{category.name}" itemLabel="#{category.name}"/>
     </h:selectOneMenu> <br/>
-    <h:commandButton value="Add dish" onclick="#{DishController.addDish()}" /> <br/>
+
+    <h:panelGroup  rendered="#{DishController.action.equals('add')}">
+        <h:commandButton value="Add dish" action="#{DishController.addDish()}" /> <br/>
+    </h:panelGroup>
+
+    <h:panelGroup  rendered="#{DishController.action.equals('edit')}">
+        <h:commandButton value="Edit dish" action="#{DishController.updateDish()}"/>
+    </h:panelGroup>
 </h:form>
 </body>
+
 </html>

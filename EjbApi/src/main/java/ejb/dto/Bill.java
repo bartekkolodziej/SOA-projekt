@@ -1,6 +1,7 @@
 package ejb.dto;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity()
 @Table(name = "Bills")
@@ -16,6 +17,17 @@ public class Bill extends AbstractDTO {
     @OneToOne
     private User customer;
 
+    @OneToMany(mappedBy = "bill")
+    private List<Order> orders;
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
     public int getId() {
         return id;
     }
@@ -24,7 +36,7 @@ public class Bill extends AbstractDTO {
         this.id = id;
     }
 
-    public double getFinalValue() {
+    public Integer getFinalValue() {
         return finalValue;
     }
 

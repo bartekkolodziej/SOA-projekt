@@ -15,7 +15,7 @@ public class Category extends AbstractDTO {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", orphanRemoval = true)
     private List<Dish> dishes;
 
     public int getId() {

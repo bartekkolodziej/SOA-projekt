@@ -2,6 +2,8 @@ package ejb.implementation;
 
 import dao.BillDAO;
 import ejb.dto.Bill;
+import ejb.dto.Order;
+import ejb.dto.User;
 import ejb.interfaces.BillManager;
 
 import java.util.List;
@@ -19,12 +21,18 @@ public class BillManagerBean implements BillManager {
         return BillDAO.getInstance().getItems();
     }
 
-    public void addBill(Integer value, String customerName) {
+    public void updateBill(Bill bill) {
+        BillDAO.getInstance().updateItem(bill);
+    }
+
+    public Bill addBill(User customer, Integer value, List<Order> orders) {
         Bill bill = new Bill();
         Random generator = new Random();
         bill.setId(generator.nextInt(999999)); //TODO - zrobic automatyczne generowanie ID dla kazdej klasy
+        bill.setCustomer(customer);
         bill.setFinalValue(value);
-        bill.setCustomer(this.userManagerBean.getUser(customerName));
+        bill.setOrders(orders);
         BillDAO.getInstance().addItem(bill);
+        return bill;
     }
 }

@@ -14,11 +14,15 @@ public class Order extends AbstractDTO {
     private int id;
 
     @OneToMany(mappedBy = "order")
-    private List<OrderedDish> orderedDishes;
+    private List<Dish> orderedDishes;
 
     @ManyToOne
     @JoinColumn(name="customer_id")
     private User customer;
+
+    @ManyToOne
+    @JoinColumn(name="bill_id")
+    private Bill bill;
 
     @Column(name = "orderDate", nullable = false)
     private Date orderDate;
@@ -30,7 +34,7 @@ public class Order extends AbstractDTO {
     private String status;
 
     @Column(name = "price")
-    private Double price;
+    private Integer price;
 
     public int getId() {
         return id;
@@ -38,6 +42,22 @@ public class Order extends AbstractDTO {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Date getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
+    }
+
+    public Date getFinalisationDate() {
+        return finalisationDate;
+    }
+
+    public void setFinalisationDate(Date finalisationDate) {
+        this.finalisationDate = finalisationDate;
     }
 
     public User getCustomer() {
@@ -72,19 +92,19 @@ public class Order extends AbstractDTO {
         this.status = status;
     }
 
-    public Double getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(Double value) {
+    public void setPrice(Integer value) {
         this.price = value;
     }
 
-    public List<OrderedDish> getOrderedDishes() {
+    public List<Dish> getOrderedDishes() {
         return orderedDishes;
     }
 
-    public void setOrderedDishes(List<OrderedDish> orderedDishes) {
+    public void setOrderedDishes(List<Dish> orderedDishes) {
         this.orderedDishes = orderedDishes;
     }
 }

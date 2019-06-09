@@ -26,8 +26,9 @@ public class Dish extends AbstractDTO{
     @JoinColumn(name="category_id")
     private Category category;
 
-    @OneToMany(mappedBy = "dish")
-    private List<OrderedDish> orderedDishes;
+    @ManyToOne
+    @JoinColumn(name="dish_id")
+    private Order order;
 
     public int getId() {
         return id;
@@ -69,11 +70,4 @@ public class Dish extends AbstractDTO{
         this.weight = weight;
     }
 
-    public List<OrderedDish> getOrderedDishes() {
-        return orderedDishes;
-    }
-
-    public void setOrderedDishes(List<OrderedDish> orderedDishes) {
-        this.orderedDishes = orderedDishes;
-    }
 }

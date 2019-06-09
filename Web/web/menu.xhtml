@@ -14,9 +14,7 @@
     </style>
     <f:verbatim>
         <script type="text/javascript" language="JavaScript">
-            window.onload = function () {
-                getCategoriesFromDB();
-            };
+
         </script>
     </f:verbatim>
 </h:head>
@@ -26,11 +24,19 @@
         <ol>
             <ui:repeat value="#{MenuController.categories}" var="category">
                 <li>
-                    <div style="display: flex; justify-content:space-between; width: 400px; border: 1px solid grey; padding: 8px">
+                    <div style="display: flex; justify-content:space-between; width: 200px; border: 1px solid grey; padding: 8px">
                         #{category.name}
                         <h:form>
-                            <h:commandButton action="#{CategoryController.redirectToCategoryPage(category)}" value="Edit"/>
-                            <h:commandButton action="#{CategoryController.removeCategory(category.id)}" value="Remove"/>
+                            <h:commandButton action="#{CategoryController.redirectToCategoryPage(category)}"
+                                             rendered="#{ApplicationController.getInstance().loggedUser.role.equals('manager') ||
+                                                     ApplicationController.getInstance().loggedUser.role.equals('admin')}"
+                                             value="Add"/>
+                            <h:commandButton action="#{CategoryController.removeCategory(category.id)}"
+                                             rendered="#{ApplicationController.getInstance().loggedUser.role.equals('manager') ||
+                                                     ApplicationController.getInstance().loggedUser.role.equals('admin')}"
+                                             value="Remove">
+                                <f:actionListener binding="#{MenuController.getCategoriesFromDB()}"/>
+                            </h:commandButton>
                         </h:form>
                     </div>
                     <ul>
@@ -41,11 +47,19 @@
                                     Price #{dish.price} <br/>
                                 </div>
                                 <h:form>
-                                    <h:commandButton action="#{DishController.orderDish(dish)}" value="Order"/>
-                                    <br/>
+                                    <h:commandButton action="#{BillController.addDishToCart(dish)}"
+                                                     rendered="#{ApplicationController.getInstance().loggedUser.role.equals('client')}"
+                                                     value="Add to cart"/><br/>
                                     <h:commandButton action="#{DishController.redirectToDishPage(dish)}"
+                                                     rendered="#{ApplicationController.getInstance().loggedUser.role.equals('manager') ||
+                                                     ApplicationController.getInstance().loggedUser.role.equals('admin')}"
                                                      value="Edit"/> <br/>
-                                    <h:commandButton action="#{DishController.removeDish(dish.id)}" value="Remove"/>
+                                    <h:commandButton action="#{DishController.removeDish(dish.id)}"
+                                                     rendered="#{ApplicationController.getInstance().loggedUser.role.equals('manager') ||
+                                                     ApplicationController.getInstance().loggedUser.role.equals('admin')}"
+                                                     value="Remove">
+                                        <f:actionListener binding="#{MenuController.getCategoriesFromDB()}"/>
+                                    </h:commandButton>
                                     <br/>
                                 </h:form>
                             </li>
@@ -65,8 +79,40 @@
     </div>
 
 
-    <h:form>
-        <p:remoteCommand name="getCategoriesFromDB" action="#{MenuController.getCategoriesFromDB()}"/>
-    </h:form>
+    <div style="position: absolute; top: 0; right: 0; margin: 16px">
+        <h:panelGroup layout="block" rendered="#{ApplicationController.getInstance().loggedUser == null}">
+            <h:form>
+                <h:commandButton action="#{UserController.redirectToUserPage('login')}" value="Login"/> <br/>
+                <h:commandButton action="#{UserController.redirectToUserPage('register')}" value="Register"/> <br/>
+            </h:form>
+        </h:panelGroup>
+
+        <h:panelGroup layout="block"
+                      rendered="#{ApplicationController.getInstance().loginAndRegistrationStatus != null}">
+            <h:outputText value="#{ApplicationController.getInstance().loginAndRegistrationStatus}"/> <br/>
+            <h:form>
+                <h:commandButton action="#{ApplicationController.getInstance().logout()}" value="Logout"/>
+            </h:form>
+        </h:panelGroup>
+    </div>
+
+    <h:panelGroup layout="block" rendered="#{ApplicationController.getInstance().loggedUser.role.equals('client')}" >
+        <h2>Cart</h2>
+        <ol>
+            <ui:repeat value="#{BillController.dishesInCart}" var="dishInCart">
+                <li style="display: flex; justify-content:space-between; width: 400px; border: 1px solid grey; padding: 8px">
+                    Dish: #{dishInCart.name} <br/>
+                    Weight: #{dishInCart.weight} <br/>
+                    Price #{dishInCart.price} <br/>
+                </li>
+            </ui:repeat>
+        </ol>
+        <br/>
+        Final price: #{BillController.finalValue} <br/>
+        <h:form>
+            <h:commandButton action="#{BillController.order()}" value="Order"/>
+        </h:form>
+    </h:panelGroup>
+
 </h:body>
 </html>

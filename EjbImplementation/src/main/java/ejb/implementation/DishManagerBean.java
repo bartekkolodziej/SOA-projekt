@@ -28,10 +28,11 @@ public class DishManagerBean implements DishManager {
         return null;
     }
 
-    public void addDish(Dish dish) {
+    public boolean addDish(Dish dish) {
         Random generator = new Random();
         dish.setId(generator.nextInt(999999)); //TODO - zrobic automatyczne generowanie ID dla kazdej klasy
         System.out.println("Dsih category:  " + dish.getCategory());
-        DishDAO.getInstance().addItem(dish);
+       return DishDAO.getInstance().addItem(dish);
+
     }
 }

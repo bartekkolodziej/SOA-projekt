@@ -13,7 +13,7 @@ public class CategoryController {
 
     private CategoryManagerBean categoryManagerBean = new CategoryManagerBean();
 
-    private Category category = new Category();
+    private Category category;
 
     private String action;
 
@@ -41,11 +41,19 @@ public class CategoryController {
         CategoryDAO.getInstance().deleteItem(categoryId);
     }
 
+    public void updateCategory(){
+        CategoryDAO.getInstance().updateItem(this.category);
+    }
+
     public String redirectToCategoryPage(Category category) {
-        if (category != null)
+        if (category != null) {
+            this.category = category;
             setAction("edit");
-        else
+        }
+        else {
             setAction("add");
+            this.category = new Category();
+        }
         return "categoryPage?faces-redirect=true";
     }
 }

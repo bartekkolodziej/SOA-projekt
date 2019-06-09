@@ -7,6 +7,8 @@ import ejb.implementation.UserManagerBean;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
 
 @SessionScoped
 @ManagedBean(name = "UserController")
@@ -15,57 +17,62 @@ public class UserController implements Serializable {
 
     private UserManagerBean userManagerBean = new UserManagerBean();
 
-    private String login;
+    private User user = new User();
 
-    private String password;
+    private String action;
 
-    private String name;
+    private List<String> roles = Arrays.asList("admin", "client", "manager", "staff", "supplier");
 
-    private String surname;
-
-    private String role;
-
-    public String getLogin() {
-        return login;
+    public List<String> getRoles() {
+        return roles;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
     }
 
-    public String getPassword() {
-        return password;
+    public User getUser() {
+        return user;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public String getName() {
-        return name;
+    public String getAction() {
+        return action;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setAction(String action) {
+        this.action = action;
     }
 
-    public String getSurname() {
-        return surname;
+    public String register() throws InvalidLoginCredentialsException {
+        User registeredUser  = this.userManagerBean.createUser(this.user);
+        if (registeredUser != null) {
+            ApplicationController.getInstance().setLoggedUser(registeredUser);
+            ApplicationController.getInstance().setLoginAndRegistrationStatus("Logged correctly as: " + user.getLogin());
+            return "menu?faces-redirect=true";
+        } else {
+            ApplicationController.getInstance().setLoginAndRegistrationStatus("Something went wrong");
+            return "addUser?faces-redirect=true";
+        }
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public String login() throws InvalidLoginCredentialsException {
+        User loggedUser = this.userManagerBean.loginUser(this.user.getLogin(), this.user.getPassword());
+        if(loggedUser != null){
+            ApplicationController.getInstance().setLoggedUser(loggedUser);
+            ApplicationController.getInstance().setLoginAndRegistrationStatus("Logged correctly as: " + loggedUser.getLogin() +"(" + loggedUser.getRole()+")");
+            return "menu?faces-redirect=true";
+        } else {
+            ApplicationController.getInstance().setLoginAndRegistrationStatus("Invalid login or password");
+            return "addUser?faces-redirect=true";
+        }
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public void register() throws InvalidLoginCredentialsException {
-        this.userManagerBean.createUser(login, password, name, surname, role);
+    public String redirectToUserPage(String action) {
+        this.action = action;
+        return "addUser?faces-redirect=true";
     }
 }
