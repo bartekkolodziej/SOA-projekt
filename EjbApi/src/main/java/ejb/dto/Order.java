@@ -20,14 +20,10 @@ public class Order extends AbstractDTO {
     @JoinColumn(name="customer_id")
     private User customer;
 
-    @ManyToOne
-    @JoinColumn(name="bill_id")
-    private Bill bill;
-
-    @Column(name = "orderDate", nullable = false)
+    @Column(name = "orderDate")
     private Date orderDate;
 
-    @Column(name = "orderFinalisationDate", nullable = false)
+    @Column(name = "orderFinalisationDate")
     private Date finalisationDate;
 
     @Column(name = "status")
@@ -68,22 +64,6 @@ public class Order extends AbstractDTO {
         this.customer = customer;
     }
 
-    public Date getorderDate() {
-        return orderDate;
-    }
-
-    public void setorderDate(Date orderDate) {
-        this.orderDate = orderDate;
-    }
-
-    public Date getfinalisationDate() {
-        return finalisationDate;
-    }
-
-    public void setfinalisationDate(Date finalisationDate) {
-        this.finalisationDate = finalisationDate;
-    }
-
     public String getStatus() {
         return status;
     }
@@ -106,5 +86,17 @@ public class Order extends AbstractDTO {
 
     public void setOrderedDishes(List<Dish> orderedDishes) {
         this.orderedDishes = orderedDishes;
+    }
+
+    @ManyToOne
+    @JoinColumn(name="orders")
+    private Bill bills;
+
+    public Bill getBills() {
+        return bills;
+    }
+
+    public void setBills(Bill bills) {
+        this.bills = bills;
     }
 }

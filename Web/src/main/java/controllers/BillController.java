@@ -55,6 +55,8 @@ public class BillController implements Serializable {
         Order order = orderManagerBean.addOrder(this.dishesInCart, ApplicationController.getInstance().getLoggedUser(), new Date(), null, "inProgress", this.finalValue);
         List<Order> orders = Arrays.asList(order);
         this.billManagerBean.addBill(ApplicationController.getInstance().getLoggedUser(), finalValue, orders);
+        ApplicationController.getInstance().getLoggedUser().setOrders(orders);
+        UserDAO.getInstance().updateItem(ApplicationController.getInstance().getLoggedUser());
         this.finalValue = 0;
         this.dishesInCart = new ArrayList<>();
     }

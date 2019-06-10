@@ -14,7 +14,6 @@
         <class>ejb.dto.User</class>
         <class>ejb.dto.Bill</class>
         <class>ejb.dto.Subscription</class>
-        <class>ejb.dto.OrderedDish</class>
 
 
         <properties>

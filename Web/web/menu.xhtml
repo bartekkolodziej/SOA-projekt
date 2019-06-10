@@ -30,7 +30,7 @@
                             <h:commandButton action="#{CategoryController.redirectToCategoryPage(category)}"
                                              rendered="#{ApplicationController.getInstance().loggedUser.role.equals('manager') ||
                                                      ApplicationController.getInstance().loggedUser.role.equals('admin')}"
-                                             value="Add"/>
+                                             value="Edit"/>
                             <h:commandButton action="#{CategoryController.removeCategory(category.id)}"
                                              rendered="#{ApplicationController.getInstance().loggedUser.role.equals('manager') ||
                                                      ApplicationController.getInstance().loggedUser.role.equals('admin')}"
@@ -70,13 +70,13 @@
         </ol>
     </div>
 
-    <div id="editButtons">
+    <h:panelGroup rendered="#{ApplicationController.getInstance().loggedUser.role.equals('admin') || ApplicationController.getInstance().loggedUser.role.equals('manager')}">
         <h:form>
             <h:commandButton action="#{CategoryController.redirectToCategoryPage(null)}" value="Add new category"/>
             <br/>
             <h:commandButton action="#{DishController.redirectToDishPage(null)}" value="Add new dish"/> <br/>
         </h:form>
-    </div>
+    </h:panelGroup>
 
 
     <div style="position: absolute; top: 0; right: 0; margin: 16px">
@@ -87,13 +87,20 @@
             </h:form>
         </h:panelGroup>
 
-        <h:panelGroup layout="block"
-                      rendered="#{ApplicationController.getInstance().loginAndRegistrationStatus != null}">
+        <h:panelGroup layout="block" rendered="#{ApplicationController.getInstance().loggedUser != null}">
             <h:outputText value="#{ApplicationController.getInstance().loginAndRegistrationStatus}"/> <br/>
             <h:form>
                 <h:commandButton action="#{ApplicationController.getInstance().logout()}" value="Logout"/>
             </h:form>
+            <h:form>
+                <h:commandButton action="#{UserController.redirectToUserProfile}" value="Check profil"/>
+            </h:form>
+            <h:form>
+                <h:commandButton action="#{ApplicationController.getInstance().getOrders()}" value="Check Orders"/>
+            </h:form>
         </h:panelGroup>
+
+
     </div>
 
     <h:panelGroup layout="block" rendered="#{ApplicationController.getInstance().loggedUser.role.equals('client')}" >
@@ -113,6 +120,8 @@
             <h:commandButton action="#{BillController.order()}" value="Order"/>
         </h:form>
     </h:panelGroup>
+
+
 
 </h:body>
 </html>

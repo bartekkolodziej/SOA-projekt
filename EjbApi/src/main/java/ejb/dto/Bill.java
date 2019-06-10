@@ -17,7 +17,7 @@ public class Bill extends AbstractDTO {
     @OneToOne
     private User customer;
 
-    @OneToMany(mappedBy = "bill")
+    @OneToMany(mappedBy = "bills")
     private List<Order> orders;
 
     public List<Order> getOrders() {

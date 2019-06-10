@@ -33,16 +33,18 @@ public class CategoryController {
         this.action = action;
     }
 
-    public void addCategory() {
+    public String addCategory() {
         this.categoryManagerBean.addCategory(this.category);
+        return "menu?faces-redirect=true";
     }
 
     public void removeCategory(Integer categoryId) {
         CategoryDAO.getInstance().deleteItem(categoryId);
     }
 
-    public void updateCategory(){
+    public String updateCategory(){
         CategoryDAO.getInstance().updateItem(this.category);
+        return "menu?faces-redirect=true";
     }
 
     public String redirectToCategoryPage(Category category) {

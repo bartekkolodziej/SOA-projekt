@@ -1,5 +1,6 @@
 package ejb.implementation;
 
+import dao.SubscriptionDAO;
 import ejb.dto.Order;
 import ejb.dto.Subscription;
 import ejb.dto.User;
@@ -12,5 +13,6 @@ public class SubscriptionManagerBean implements SubsrciptionManager {
         subscription.setCustomer(customer);
         subscription.setFrequency(frequency);
         subscription.setOrder(order);
+        SubscriptionDAO.getInstance().addItem(subscription);
     }
 }

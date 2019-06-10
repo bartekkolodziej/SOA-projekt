@@ -27,8 +27,16 @@ public class Dish extends AbstractDTO{
     private Category category;
 
     @ManyToOne
-    @JoinColumn(name="dish_id")
+    @JoinColumn(name="orders_id")
     private Order order;
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
 
     public int getId() {
         return id;

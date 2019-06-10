@@ -1,10 +1,13 @@
 package controllers;
 
+import dao.BillDAO;
+import ejb.dto.Bill;
 import ejb.dto.User;
 
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import java.io.Serializable;
+import java.util.List;
 
 @ApplicationScoped
 @ManagedBean(name = "ApplicationController")
@@ -43,5 +46,9 @@ public class ApplicationController implements Serializable {
         this.loggedUser = null;
         setLoginAndRegistrationStatus("");
         return "menu?faces-redirect=true";
+    }
+
+    public void getOrders () {
+      instance.getLoggedUser().getOrders().forEach(e -> System.out.println(e.getOrderedDishes().get(0).getName())); //TODO - zrobic jakies normalne wyciagnie z bay
     }
 }

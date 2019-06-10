@@ -30,6 +30,7 @@ public class BillManagerBean implements BillManager {
         Random generator = new Random();
         bill.setId(generator.nextInt(999999)); //TODO - zrobic automatyczne generowanie ID dla kazdej klasy
         bill.setCustomer(customer);
+        System.out.println("orderki:   " + orders);
         bill.setFinalValue(value);
         bill.setOrders(orders);
         BillDAO.getInstance().addItem(bill);

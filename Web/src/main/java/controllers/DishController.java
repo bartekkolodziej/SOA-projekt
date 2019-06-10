@@ -34,9 +34,10 @@ public class DishController implements Serializable {
         this.categoryName = categoryName;
     }
 
-    public void addDish() {
+    public String addDish() {
         dish.setCategory(categoryManagerBean.getCategory(this.categoryName));
         this.dishManagerBean.addDish(dish);
+        return "menu?faces-redirect=true";
     }
 
     public Dish getDish() {
@@ -59,16 +60,14 @@ public class DishController implements Serializable {
         return CategoryDAO.getInstance().getItems();
     }
 
-    public void updateDish(){
+    public String updateDish(){
        DishDAO.getInstance().updateItem(dish);
+        return "menu?faces-redirect=true";
     }
 
     public void removeDish(Integer dishId) {
         System.out.println("dsh id: " + dishId);
         DishDAO.getInstance().deleteItem(dishId);
-    }
-
-    public void orderDish(Dish dish){
     }
 
     public String redirectToDishPage(Dish dish){

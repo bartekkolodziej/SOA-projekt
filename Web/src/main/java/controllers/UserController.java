@@ -75,4 +75,8 @@ public class UserController implements Serializable {
         this.action = action;
         return "addUser?faces-redirect=true";
     }
+
+    public String redirectToUserProfile() {
+        return "userProfile?faces-redirect=true";
+    }
 }

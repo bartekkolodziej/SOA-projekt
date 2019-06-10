@@ -32,7 +32,7 @@ public class DishManagerBean implements DishManager {
         Random generator = new Random();
         dish.setId(generator.nextInt(999999)); //TODO - zrobic automatyczne generowanie ID dla kazdej klasy
         System.out.println("Dsih category:  " + dish.getCategory());
-       return DishDAO.getInstance().addItem(dish);
-
+        DishDAO.getInstance().addItem(dish);
+        return false;
     }
 }
