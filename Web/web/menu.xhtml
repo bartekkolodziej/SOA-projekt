@@ -47,7 +47,7 @@
                                     Price #{dish.price} <br/>
                                 </div>
                                 <h:form>
-                                    <h:commandButton action="#{BillController.addDishToCart(dish)}"
+                                    <h:commandButton action="#{MenuController.addDishToCart(dish)}"
                                                      rendered="#{ApplicationController.getInstance().loggedUser.role.equals('client')}"
                                                      value="Add to cart"/><br/>
                                     <h:commandButton action="#{DishController.redirectToDishPage(dish)}"
@@ -95,29 +95,29 @@
             <h:form>
                 <h:commandButton action="#{UserController.redirectToUserProfile}" value="Check profil"/>
             </h:form>
-            <h:form>
-                <h:commandButton action="#{ApplicationController.getInstance().getOrders()}" value="Check Orders"/>
-            </h:form>
         </h:panelGroup>
 
 
     </div>
 
-    <h:panelGroup layout="block" rendered="#{ApplicationController.getInstance().loggedUser.role.equals('client')}" >
+    <h:panelGroup style="margin-top:32px;" layout="block" rendered="#{ApplicationController.getInstance().loggedUser.role.equals('client')}" >
         <h2>Cart</h2>
         <ol>
-            <ui:repeat value="#{BillController.dishesInCart}" var="dishInCart">
+            <ui:repeat value="#{MenuController.dishesInCart}" var="dishInCart">
                 <li style="display: flex; justify-content:space-between; width: 400px; border: 1px solid grey; padding: 8px">
                     Dish: #{dishInCart.name} <br/>
                     Weight: #{dishInCart.weight} <br/>
                     Price #{dishInCart.price} <br/>
                 </li>
+                <h:form>
+                    <h:commandButton action="#{MenuController.removeFromCart(dishInCart)}" value="Remove"/>
+                </h:form>
             </ui:repeat>
         </ol>
         <br/>
-        Final price: #{BillController.finalValue} <br/>
+        Final price: #{MenuController.finalValue} <br/>
         <h:form>
-            <h:commandButton action="#{BillController.order()}" value="Order"/>
+            <h:commandButton action="#{MenuController.order()}" value="Order"/>
         </h:form>
     </h:panelGroup>
 

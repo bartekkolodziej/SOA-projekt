@@ -2,6 +2,7 @@ package ejb.interfaces;
 
 import ejb.dto.Dish;
 import ejb.dto.Order;
+import ejb.dto.OrderedDish;
 import ejb.dto.User;
 
 import java.util.Date;
@@ -11,5 +12,5 @@ public interface OrderManager {
 
     List<Order> getOrders();
     Order getOrder(int orderId);
-    Order addOrder(List<Dish> orderedDishes, User customer, Date orderDate, Date finalisationDate, String status, Integer price);
+    Order addOrder(List<OrderedDish> orderedDishes, User customer, Date orderDate, Date finalisationDate, String status, Integer price);
 }

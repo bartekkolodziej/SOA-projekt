@@ -3,6 +3,7 @@ package ejb.dto;
 import javax.persistence.*;
 import org.hibernate.annotations.Cascade;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 @Entity()
@@ -25,18 +26,6 @@ public class Dish extends AbstractDTO{
     @ManyToOne
     @JoinColumn(name="category_id")
     private Category category;
-
-    @ManyToOne
-    @JoinColumn(name="orders_id")
-    private Order order;
-
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
 
     public int getId() {
         return id;

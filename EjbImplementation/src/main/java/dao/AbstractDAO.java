@@ -87,7 +87,25 @@ public abstract class AbstractDAO<T extends AbstractDTO>  {
     }
 
     public void updateItem(T item) {
-       //TODO
+        EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence
+                .createEntityManagerFactory("JPA-Projekt");
+        EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        EntityTransaction transaction = null;
+
+        try {
+            transaction = manager.getTransaction();
+            transaction.begin();
+            manager.merge(item);
+            transaction.commit();
+        } catch (Exception ex) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            ex.printStackTrace();
+        } finally {
+            manager.close();
+        }
+
     }
 
     public void deleteItem(Integer itemId) {

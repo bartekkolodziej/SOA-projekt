@@ -61,7 +61,7 @@ public class DishController implements Serializable {
     }
 
     public String updateDish(){
-       DishDAO.getInstance().updateItem(dish);
+        DishDAO.getInstance().updateItem(dish);
         return "menu?faces-redirect=true";
     }
 

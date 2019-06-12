@@ -1,5 +1,11 @@
 package controllers;
 
+import dao.OrderDAO;
+import dao.OrderedDishDAO;
+import dao.UserDAO;
+import ejb.dto.Dish;
+import ejb.dto.Order;
+import ejb.dto.OrderedDish;
 import ejb.dto.User;
 import ejb.exceptions.InvalidLoginCredentialsException;
 import ejb.implementation.UserManagerBean;
@@ -8,6 +14,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @SessionScoped
@@ -21,7 +28,7 @@ public class UserController implements Serializable {
 
     private String action;
 
-    private List<String> roles = Arrays.asList("admin", "client", "manager", "staff", "supplier");
+    private List<String> roles = Arrays.asList("manager", "client", "manager", "staff", "supplier");
 
     public List<String> getRoles() {
         return roles;
@@ -77,6 +84,31 @@ public class UserController implements Serializable {
     }
 
     public String redirectToUserProfile() {
+        if(ApplicationController.getInstance().getLoggedUser().getRole().equals("client"))
+            ApplicationController.getInstance().updateUserOrderList();
+        else
+            ApplicationController.getInstance().updateOrderList();
+        return "userProfile?faces-redirect=true";
+    }
+
+    public String setOrderStatus(Order order, String status){
+        order.setStatus(status);
+        if(status.equals("delivered"))
+            order.setFinalisationDate(new Date());
+        OrderDAO.getInstance().updateItem(order);
+        return "userProfile?faces-redirect=true";
+    }
+
+    public String removeDishFromDB(Order order, OrderedDish orderedDish){
+        order.getOrderedDishes().remove(orderedDish);
+        OrderedDishDAO.getInstance().deleteItem(orderedDish.getId());
+        OrderDAO.getInstance().updateItem(order);
+        return "userProfile?faces-redirect=true";
+    }
+
+    public String removeOrderFromDB(Order order){
+       OrderDAO.getInstance().deleteItem(order.getId());
+        ApplicationController.getInstance().updateUserOrderList();
         return "userProfile?faces-redirect=true";
     }
 }

@@ -6,6 +6,100 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <f:view>
-    <h:outputLabel value="Hello, #{ApplicationController.getInstance().loggedUser.name}"/>
+    <h:outputLabel value="Hello, #{ApplicationController.getInstance().loggedUser.name}"/><br/>
+    <h:outputLabel value="Your role is #{ApplicationController.getInstance().loggedUser.role}"/><br/>
+
+
+    <h:panelGroup layout="block" rendered="#{ApplicationController.getInstance().loggedUser.role.equals('client')}">
+        <h5>Your orders</h5>
+        <div style="display:flex; justify-content: flex-start">
+        <ui:repeat value="#{ApplicationController.getInstance().loggedUser.orders}" var="order">
+            <div style="border: 1px solid gray; margin: 16px; position: relative; padding: 8px 8px 32px;">
+                Status: #{order.status}<br/>
+                Price: #{order.price}<br/>
+                Order date: #{order.orderDate}<br/>
+                Finalisations date: #{order.finalisationDate}<br/>
+                <div>
+                    Ordered dishes:
+                    <ol>
+                        <ui:repeat value="#{order.orderedDishes}" var="orderedDish">
+                            <li style="display:flex; justify-content: space-between">#{orderedDish.dish.name}
+                                <h:form>
+                                    <h:commandButton value="Remove Dish"
+                                                     rendered="#{!order.status.equals('delivered')}"
+                                                     onclick="#{UserController.removeDishFromDB(order, orderedDish)}"/>
+                                </h:form>
+                            </li>
+                        </ui:repeat>
+                    </ol>
+                </div>
+                <h:form style="position: absolute; bottom:0;">
+                    <h:commandButton value="Remove Order"
+                                     rendered="#{!order.status.equals('delivered')}"
+                                     onclick="#{UserController.removeOrderFromDB(order)}"/>
+                </h:form>
+            </div>
+        </ui:repeat>
+        </div>
+    </h:panelGroup>
+
+    <h:panelGroup layout="block" rendered="#{ApplicationController.getInstance().loggedUser.role.equals('staff')}">
+        <h5>Orders to prepare</h5>
+        <div style="display:flex; justify-content: flex-start">
+
+        <ui:repeat value="#{ApplicationController.getInstance().orders}" var="order">
+            <div style="border: 1px solid gray; margin: 16px; position: relative; padding: 8px 8px 32px;">
+            Status: #{order.status}<br/>
+            Price: #{order.price}<br/>
+            Order date: #{order.orderDate}<br/>
+            Finalisations date: #{order.finalisationDate}<br/>
+            <div>
+                Ordered dishes:
+                <ol>
+                    <ui:repeat value="#{order.orderedDishes}" var="orderedDish">
+                        <li>#{orderedDish.dish.name}</li>
+                    </ui:repeat>
+                </ol>
+            </div>
+            <h:form style="position: absolute; bottom:0;">
+                <h:commandButton value="Prepare order"
+                                 rendered="#{order.status.equals('inProgress')}"
+                                 onclick="#{UserController.setOrderStatus(order, 'readyToDelivery')}}"/>
+            </h:form>
+            <h:form style="position: absolute; bottom:0;">
+                <h:commandButton rendered="#{order.status.equals('readyToDelivery')}"
+                                 onclick="#{UserController.setOrderStatus(order, 'waitingForSupplier')}}"
+                                 value="Call supplier"/>
+            </h:form>
+            </div>
+        </ui:repeat>
+        </div>
+    </h:panelGroup>
+
+
+    <h:panelGroup  layout="block" rendered="#{ApplicationController.getInstance().loggedUser.role.equals('supplier')}">
+        <h5>Orders to deliver</h5>
+        <div style="display:flex; justify-content: flex-start">
+        <ui:repeat value="#{ApplicationController.getInstance().orders}" var="order">
+            <div style="border: 1px solid gray; margin: 16px; position: relative; padding: 8px 8px 32px;">
+                Status: #{order.status}<br/>
+                Price: #{order.price}<br/>
+                Order date: #{order.orderDate}<br/>
+                Finalisations date: #{order.finalisationDate}<br/>
+                <h:form style="position: absolute; bottom:0;">
+                    <h:commandButton rendered="#{order.status.equals('waitingForSupplier')}"
+                                     onclick="#{UserController.setOrderStatus(order, 'duringDelivery')}}"
+                                     value="Deliver"/>
+                </h:form>
+                <h:form style="position: absolute; bottom:0;">
+                    <h:commandButton rendered="#{order.status.equals('duringDelivery')}"
+                                     onclick="#{UserController.setOrderStatus(order, 'delivered')}}" value="Mark as delivered"/>
+                </h:form>
+            </div>
+        </ui:repeat>
+        </div>
+    </h:panelGroup>
+
+
 </f:view>
 </html>

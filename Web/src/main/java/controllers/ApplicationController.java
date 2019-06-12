@@ -1,8 +1,12 @@
 package controllers;
 
 import dao.BillDAO;
+import dao.OrderDAO;
+import dao.UserDAO;
 import ejb.dto.Bill;
+import ejb.dto.Order;
 import ejb.dto.User;
+import org.w3c.dom.UserDataHandler;
 
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
@@ -24,6 +28,8 @@ public class ApplicationController implements Serializable {
 
     private User loggedUser;
 
+    private List<Order> orders = null;
+
     public User getLoggedUser() {
         return loggedUser;
     }
@@ -42,13 +48,29 @@ public class ApplicationController implements Serializable {
         this.loginAndRegistrationStatus = loginAndRegistrationStatus;
     }
 
+
+
     public String logout() {
         this.loggedUser = null;
         setLoginAndRegistrationStatus("");
         return "menu?faces-redirect=true";
     }
 
-    public void getOrders () {
-      instance.getLoggedUser().getOrders().forEach(e -> System.out.println(e.getOrderedDishes().get(0).getName())); //TODO - zrobic jakies normalne wyciagnie z bay
+
+    public void updateUserOrderList() {
+        instance.getLoggedUser().setOrders(UserDAO.getInstance().getItem(instance.loggedUser.getId()).getOrders());
+    }
+
+    public String updateOrderList() {
+        this.orders = OrderDAO.getInstance().getItems();
+        return "userProfile?faces-redirect=true";
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 }

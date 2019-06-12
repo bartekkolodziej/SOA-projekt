@@ -32,7 +32,6 @@ public class BillManagerBean implements BillManager {
         bill.setCustomer(customer);
         System.out.println("orderki:   " + orders);
         bill.setFinalValue(value);
-        bill.setOrders(orders);
         BillDAO.getInstance().addItem(bill);
         return bill;
     }

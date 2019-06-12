@@ -17,17 +17,6 @@ public class Bill extends AbstractDTO {
     @OneToOne
     private User customer;
 
-    @OneToMany(mappedBy = "bills")
-    private List<Order> orders;
-
-    public List<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
-    }
-
     public int getId() {
         return id;
     }

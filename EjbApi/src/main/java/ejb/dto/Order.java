@@ -13,8 +13,8 @@ public class Order extends AbstractDTO {
     @Column(name = "id", nullable = false)
     private int id;
 
-    @OneToMany(mappedBy = "order")
-    private List<Dish> orderedDishes;
+    @OneToMany(mappedBy = "order", orphanRemoval = true)
+    private List<OrderedDish> orderedDishes;
 
     @ManyToOne
     @JoinColumn(name="customer_id")
@@ -80,23 +80,12 @@ public class Order extends AbstractDTO {
         this.price = value;
     }
 
-    public List<Dish> getOrderedDishes() {
+    public List<OrderedDish> getOrderedDishes() {
         return orderedDishes;
     }
 
-    public void setOrderedDishes(List<Dish> orderedDishes) {
+    public void setOrderedDishes(List<OrderedDish> orderedDishes) {
         this.orderedDishes = orderedDishes;
     }
 
-    @ManyToOne
-    @JoinColumn(name="orders")
-    private Bill bills;
-
-    public Bill getBills() {
-        return bills;
-    }
-
-    public void setBills(Bill bills) {
-        this.bills = bills;
-    }
 }
