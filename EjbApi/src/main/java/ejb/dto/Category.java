@@ -20,6 +20,10 @@ public class Category extends AbstractDTO {
     @OneToMany(mappedBy = "category", orphanRemoval = true)
     private List<Dish> dishes;
 
+    @ManyToOne
+    @JoinColumn(name = "menu_id")
+    private Menu menu;
+
     public int getId() {
         return id;
     }
@@ -42,5 +46,13 @@ public class Category extends AbstractDTO {
 
     public void setDishes(List<Dish> dishes) {
         this.dishes = dishes;
+    }
+
+    public Menu getMenu() {
+        return menu;
+    }
+
+    public void setMenu(Menu menu) {
+        this.menu = menu;
     }
 }

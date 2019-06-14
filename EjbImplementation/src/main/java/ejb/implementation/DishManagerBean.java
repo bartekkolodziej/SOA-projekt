@@ -1,17 +1,30 @@
 package ejb.implementation;
 
 import dao.DishDAO;
+import dao.OrderedDishDAO;
 import ejb.dto.Dish;
+import ejb.dto.OrderedDish;
 import ejb.interfaces.DishManager;
 
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class DishManagerBean implements DishManager {
 
 
     public List<Dish> getDishes() {
         return DishDAO.getInstance().getItems();
+    }
+
+    public List<Dish> getAvailableDishes() {
+        List<Dish> dishes = DishDAO.getInstance().getItems();
+        return dishes.stream().filter(e -> e.getStatus().equals("available")).collect(Collectors.toList());
+    }
+
+    public List<Dish> getArchivedDishes() {
+        List<Dish> dishes = DishDAO.getInstance().getItems();
+        return dishes.stream().filter(e -> e.getStatus().equals("archived")).collect(Collectors.toList());
     }
 
     public Dish getDish(Integer dishId) {
@@ -28,10 +41,34 @@ public class DishManagerBean implements DishManager {
         return null;
     }
 
+    public void deleteDish(Integer dishId) {
+        Dish dish = DishDAO.getInstance().getItem(dishId);
+        List<OrderedDish> orderedDishes = OrderedDishDAO.getInstance().getItems();
+
+       for(OrderedDish od: orderedDishes){
+           if(od.getDish().getId() == dishId) {
+               archiveDish(dish);
+                return;
+           }
+       }
+
+       DishDAO.getInstance().deleteItem(dishId);
+    }
+
+    public void archiveDish(Dish dish) {
+        dish.setStatus("archived");
+        DishDAO.getInstance().updateItem(dish);
+    }
+
+    public void unarchiveDish(Dish dish) {
+        dish.setStatus("available");
+        DishDAO.getInstance().updateItem(dish);
+    }
+
     public boolean addDish(Dish dish) {
         Random generator = new Random();
         dish.setId(generator.nextInt(999999)); //TODO - zrobic automatyczne generowanie ID dla kazdej klasy
-        System.out.println("Dsih category:  " + dish.getCategory());
+        dish.setStatus("available");
         DishDAO.getInstance().addItem(dish);
         return false;
     }

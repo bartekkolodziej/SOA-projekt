@@ -35,7 +35,7 @@ public class CategoryController {
 
     public String addCategory() {
         this.categoryManagerBean.addCategory(this.category);
-        return "menu?faces-redirect=true";
+        return "index?faces-redirect=true";
     }
 
     public void removeCategory(Integer categoryId) {
@@ -44,7 +44,7 @@ public class CategoryController {
 
     public String updateCategory(){
         CategoryDAO.getInstance().updateItem(this.category);
-        return "menu?faces-redirect=true";
+        return "index?faces-redirect=true";
     }
 
     public String redirectToCategoryPage(Category category) {

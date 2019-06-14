@@ -24,6 +24,9 @@ public class Dish extends AbstractDTO{
     @Column(name = "weight", nullable = false)
     private int weight;
 
+    @Column(name = "status", nullable = false)
+    private String status;
+
     @ManyToOne
     @JsonbTransient
     @JoinColumn(name="category_id")
@@ -67,6 +70,14 @@ public class Dish extends AbstractDTO{
 
     public void setWeight(int weight) {
         this.weight = weight;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
 }

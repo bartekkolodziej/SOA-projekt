@@ -9,6 +9,8 @@ import java.util.Random;
 
 public class CategoryManagerBean implements CategoryManager {
 
+    private MenuManagerBean menuManagerBean = new MenuManagerBean();
+
     public Category getCategory(Integer categoryId) {
         return CategoryDAO.getInstance().getItem(categoryId);
     }
@@ -31,6 +33,7 @@ public class CategoryManagerBean implements CategoryManager {
     public void addCategory(Category category) {
         Random generator = new Random();
         category.setId(generator.nextInt(999999)); //TODO - zrobic automatyczne generowanie ID dla kazdej klasy
+        category.setMenu(menuManagerBean.getCurrentMenu());
         CategoryDAO.getInstance().addItem(category);
     }
 }

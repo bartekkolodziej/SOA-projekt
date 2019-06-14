@@ -6,6 +6,7 @@ import ejb.dto.Category;
 import ejb.dto.Dish;
 import ejb.implementation.CategoryManagerBean;
 import ejb.implementation.DishManagerBean;
+import ejb.implementation.MenuManagerBean;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -17,8 +18,8 @@ import java.util.List;
 public class DishController implements Serializable {
 
     private DishManagerBean dishManagerBean = new DishManagerBean();
-
     private CategoryManagerBean categoryManagerBean = new CategoryManagerBean();
+    private MenuManagerBean menuManagerBean = new MenuManagerBean();
 
     private Dish dish;
 
@@ -37,7 +38,7 @@ public class DishController implements Serializable {
     public String addDish() {
         dish.setCategory(categoryManagerBean.getCategory(this.categoryName));
         this.dishManagerBean.addDish(dish);
-        return "menu?faces-redirect=true";
+        return "index?faces-redirect=true";
     }
 
     public Dish getDish() {
@@ -57,17 +58,16 @@ public class DishController implements Serializable {
     }
 
     public List<Category> getCategories(){
-        return CategoryDAO.getInstance().getItems();
+        return menuManagerBean.getCurrentMenu().getCategories();
     }
 
     public String updateDish(){
         DishDAO.getInstance().updateItem(dish);
-        return "menu?faces-redirect=true";
+        return "index?faces-redirect=true";
     }
 
     public void removeDish(Integer dishId) {
-        System.out.println("dsh id: " + dishId);
-        DishDAO.getInstance().deleteItem(dishId);
+        dishManagerBean.deleteDish(dishId);
     }
 
     public String redirectToDishPage(Dish dish){

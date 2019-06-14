@@ -15,6 +15,7 @@
         <class>ejb.dto.Bill</class>
         <class>ejb.dto.Subscription</class>
         <class>ejb.dto.OrderedDish</class>
+        <class>ejb.dto.Menu</class>
 
 
         <properties>

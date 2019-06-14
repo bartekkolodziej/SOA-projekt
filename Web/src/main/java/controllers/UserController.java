@@ -59,7 +59,7 @@ public class UserController implements Serializable {
         if (registeredUser != null) {
             ApplicationController.getInstance().setLoggedUser(registeredUser);
             ApplicationController.getInstance().setLoginAndRegistrationStatus("Logged correctly as: " + user.getLogin());
-            return "menu?faces-redirect=true";
+            return "index?faces-redirect=true";
         } else {
             ApplicationController.getInstance().setLoginAndRegistrationStatus("Something went wrong");
             return "addUser?faces-redirect=true";
@@ -71,7 +71,7 @@ public class UserController implements Serializable {
         if(loggedUser != null){
             ApplicationController.getInstance().setLoggedUser(loggedUser);
             ApplicationController.getInstance().setLoginAndRegistrationStatus("Logged correctly as: " + loggedUser.getLogin() +"(" + loggedUser.getRole()+")");
-            return "menu?faces-redirect=true";
+            return "index?faces-redirect=true";
         } else {
             ApplicationController.getInstance().setLoginAndRegistrationStatus("Invalid login or password");
             return "addUser?faces-redirect=true";

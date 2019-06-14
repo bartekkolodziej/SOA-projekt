@@ -33,8 +33,6 @@ public class OrderedDish extends AbstractDTO {
         this.id = id;
     }
 
-
-
     public Order getOrder() {
         return order;
     }
