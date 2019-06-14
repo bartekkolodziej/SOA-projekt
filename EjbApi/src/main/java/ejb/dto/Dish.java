@@ -1,5 +1,6 @@
 package ejb.dto;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
 import org.hibernate.annotations.Cascade;
 import java.io.Serializable;
@@ -24,6 +25,7 @@ public class Dish extends AbstractDTO{
     private int weight;
 
     @ManyToOne
+    @JsonbTransient
     @JoinColumn(name="category_id")
     private Category category;
 
