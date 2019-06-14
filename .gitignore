@@ -8,3 +8,4 @@
 out/
 lib/
 target/
+Web/src/main/resources/META-INF/persistence.xml

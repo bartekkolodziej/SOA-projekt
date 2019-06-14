@@ -27,6 +27,7 @@
         <module>EjbApi</module>
         <module>EjbImplementation</module>
         <module>Web</module>
+        <module>RESTClient</module>
     </modules>
 
     <dependencies>
