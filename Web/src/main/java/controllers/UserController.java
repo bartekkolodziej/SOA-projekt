@@ -28,7 +28,7 @@ public class UserController implements Serializable {
 
     private String action;
 
-    private List<String> roles = Arrays.asList("manager", "client", "manager", "staff", "supplier");
+    private List<String> roles = Arrays.asList("admin", "client", "manager", "staff", "supplier");
 
     public List<String> getRoles() {
         return roles;
@@ -91,24 +91,21 @@ public class UserController implements Serializable {
         return "userProfile?faces-redirect=true";
     }
 
-    public String setOrderStatus(Order order, String status){
+    public void setOrderStatus(Order order, String status){
         order.setStatus(status);
         if(status.equals("delivered"))
             order.setFinalisationDate(new Date());
         OrderDAO.getInstance().updateItem(order);
-        return "userProfile?faces-redirect=true";
     }
 
-    public String removeDishFromDB(Order order, OrderedDish orderedDish){
+    public void removeDishFromDB(Order order, OrderedDish orderedDish){
         order.getOrderedDishes().remove(orderedDish);
         OrderedDishDAO.getInstance().deleteItem(orderedDish.getId());
         OrderDAO.getInstance().updateItem(order);
-        return "userProfile?faces-redirect=true";
     }
 
-    public String removeOrderFromDB(Order order){
+    public void removeOrderFromDB(Order order){
        OrderDAO.getInstance().deleteItem(order.getId());
         ApplicationController.getInstance().updateUserOrderList();
-        return "userProfile?faces-redirect=true";
     }
 }
