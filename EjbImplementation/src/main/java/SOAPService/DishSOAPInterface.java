@@ -5,7 +5,7 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
 @WebService
-@SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use= SOAPBinding.Use.LITERAL)
+@SOAPBinding(style = SOAPBinding.Style.RPC)
 public interface DishSOAPInterface {
 
     @WebMethod
