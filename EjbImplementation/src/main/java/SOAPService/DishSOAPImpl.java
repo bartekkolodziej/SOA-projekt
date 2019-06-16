@@ -18,6 +18,7 @@ public class DishSOAPImpl implements DishSOAP {
         dish.setName(name);
         dish.setPrice(price);
         dish.setWeight(weight);
+        dish.setStatus("available");
         dish.setCategory(new CategoryManagerBean().getCategory(categoryName));
         new DishManagerBean().addDish(dish);
     }
