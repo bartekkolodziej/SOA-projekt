@@ -63,7 +63,7 @@ public abstract class AbstractDAO<T extends AbstractDTO>  {
         return item;
     }
 
-    public boolean addItem(T item) {
+    public void addItem(T item) {
         EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence
                 .createEntityManagerFactory("JPA-Projekt");
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
@@ -80,11 +80,9 @@ public abstract class AbstractDAO<T extends AbstractDTO>  {
                 transaction.rollback();
             }
             ex.printStackTrace();
-            return false;
         } finally {
             manager.close();
         }
-        return true;
     }
 
     public void updateItem(T item) {
