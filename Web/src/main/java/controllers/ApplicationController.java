@@ -12,7 +12,7 @@ import javax.faces.bean.ManagedBean;
 import java.io.Serializable;
 import java.util.List;
 
-@ApplicationScoped
+@javax.faces.bean.SessionScoped
 @ManagedBean(name = "ApplicationController")
 public class ApplicationController implements Serializable {
 

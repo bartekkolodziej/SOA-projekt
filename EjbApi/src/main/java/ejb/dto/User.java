@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.util.List;
 
 
+//insert into users values(0, 'admin', 'admin', 92668751, 'admin', 'admin'); - a to zeby admina do bazy dodac
 @Entity()
 @Table(name = "Users")
 public class User extends AbstractDTO{
@@ -16,7 +17,7 @@ public class User extends AbstractDTO{
     private String login;
 
     @Column(name = "password", nullable = false)
-    private String password;
+    private Integer password;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -49,11 +50,11 @@ public class User extends AbstractDTO{
         this.login = login;
     }
 
-    public String getPassword() {
+    public Integer getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(Integer password) {
         this.password = password;
     }
 

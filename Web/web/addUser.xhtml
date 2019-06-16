@@ -14,7 +14,7 @@
         <h1>Registration</h1>
         <h:form>
             Login: <h:inputText value="#{UserController.user.login}"/> <br/>
-            Password: <h:inputSecret value="#{UserController.user.password}"/> <br/>
+            Password: <h:inputSecret value="#{UserController.password}"/> <br/>
             Name: <h:inputText value="#{UserController.user.name}"/> <br/>
             Surname: <h:inputText value="#{UserController.user.surname}"/> <br/>
             <h:commandButton value="Register" action="#{UserController.register()}"/> <br/>
@@ -25,7 +25,7 @@
         <h1>Login</h1>
         <h:form>
             Login: <h:inputText value="#{UserController.user.login}"/> <br/>
-            Password: <h:inputSecret value="#{UserController.user.password}"/> <br/>
+            Password: <h:inputSecret value="#{UserController.password}"/> <br/>
             <h:commandButton value="Login" action="#{UserController.login()}"/> <br/>
         </h:form>
         <h:outputText value="#{ApplicationController.getInstance().loginAndRegistrationStatus}"/>
@@ -35,7 +35,7 @@
         <h1>Registration</h1>
         <h:form>
             Login: <h:inputText value="#{UserController.user.login}"/> <br/>
-            Password: <h:inputSecret value="#{UserController.user.password}"/> <br/>
+            Password: <h:inputSecret value="#{UserController.password}"/> <br/>
             Name: <h:inputText value="#{UserController.user.name}"/> <br/>
             Surname: <h:inputText value="#{UserController.user.surname}"/> <br/>
             Role:

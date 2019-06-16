@@ -28,7 +28,7 @@ public class UserManagerBean implements UserManager {
 
     public User loginUser(String login, String password) {
         User user = this.getUser(login);
-        if(user != null && user.getPassword().equals(password)){
+        if(user != null && user.getPassword() == password.hashCode()){
             return user;
         }
         return null;

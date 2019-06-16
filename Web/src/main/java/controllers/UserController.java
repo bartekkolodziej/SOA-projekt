@@ -24,6 +24,8 @@ public class UserController implements Serializable {
 
     private User user = new User();
 
+    private String password;
+
     private String action;
 
     private List<String> roles = Arrays.asList("client", "manager", "staff", "supplier");
@@ -56,6 +58,7 @@ public class UserController implements Serializable {
         if(user.getRole() == null)
             user.setRole("client");
 
+        user.setPassword(password.hashCode());
         User registeredUser  = userManagerBean.createUser(user);
 
         if (registeredUser != null) {
@@ -69,7 +72,7 @@ public class UserController implements Serializable {
     }
 
     public String login() throws InvalidLoginCredentialsException {
-        User loggedUser = this.userManagerBean.loginUser(this.user.getLogin(), this.user.getPassword());
+        User loggedUser = userManagerBean.loginUser(user.getLogin(), password);
         if(loggedUser != null){
             ApplicationController.getInstance().setLoggedUser(loggedUser);
             ApplicationController.getInstance().setLoginAndRegistrationStatus("Logged correctly as: " + loggedUser.getLogin() +"(" + loggedUser.getRole()+")");
@@ -129,5 +132,13 @@ public class UserController implements Serializable {
         SubscriptionDAO.getInstance().deleteItem(subscription.getId());
         ApplicationController.getInstance().updateUserSubscriptionsList();
         ApplicationController.getInstance().updateSubscriptionsList();
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
