@@ -147,6 +147,7 @@
                 <ui:repeat value="#{ApplicationController.getInstance().orders}" var="order"
                            id="allOrders">
                     <h:panelGroup style="border: 1px solid gray; margin: 16px; position: relative; padding: 8px 8px 32px; min-width: 400px">
+                        User: #{order.customer.name} #{order.customer.surname} (#{order.customer.login})  <br/>
                         Status: #{order.status}<br/>
                         Price: #{order.price}<br/>
                         Order date: #{order.orderDate}<br/>
@@ -175,6 +176,7 @@
             <div style="display:flex; justify-content: flex-start; flex-wrap: wrap">
                 <ui:repeat value="#{ApplicationController.getInstance().subscriptions}" var="subscription" id="allSubs">
                     <h:panelGroup style="border: 1px solid gray; margin: 16px; position: relative; padding: 8px 8px 32px; min-width: 400px">
+                        User: #{subscription.customer.name} #{subscription.customer.surname} (#{subscription.customer.login}) <br/>
                         Status: #{subscription.status}<br/>
                         Frequency: #{subscription.frequency}<br/>
                         Time: #{subscription.time}<br/>

@@ -122,10 +122,12 @@ public class UserController implements Serializable {
     public void removeOrderFromDB(Order order){
        OrderDAO.getInstance().deleteItem(order.getId());
         ApplicationController.getInstance().updateUserOrderList();
+        ApplicationController.getInstance().updateOrderList();
     }
 
     public void removeSubscriptionFromDB(Subscription subscription){
         SubscriptionDAO.getInstance().deleteItem(subscription.getId());
         ApplicationController.getInstance().updateUserSubscriptionsList();
+        ApplicationController.getInstance().updateSubscriptionsList();
     }
 }

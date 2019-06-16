@@ -13,10 +13,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="EjbApi" target="1.8" />
-      <module name="EjbImplementation" target="1.8" />
       <module name="projekt" target="1.8" />
-      <module name="RESTClient" target="8" />
       <module name="SOA-projekt" target="1.8" />
       <module name="Web" target="1.8" />
     </bytecodeTargetLevel>
