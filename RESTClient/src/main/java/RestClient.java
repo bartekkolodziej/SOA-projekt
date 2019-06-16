@@ -28,16 +28,21 @@ public class RestClient {
     }
 
     public String getResponse(String url,String version) throws IOException, HttpException, URISyntaxException{
-        HttpClient client = new DefaultHttpClient();
-        HttpGet request = new HttpGet(url);
-        request.setHeader("Content-Language",version);
-        HttpResponse response = client.execute(request);
-        BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-        String json = "";
-        if ((json = rd.readLine()) != null) {
-            return json;
+        try {
+            HttpClient client = new DefaultHttpClient();
+            HttpGet request = new HttpGet(url);
+            request.setHeader("Content-Language", version);
+            HttpResponse response = client.execute(request);
+            BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+            String json = "";
+            if ((json = rd.readLine()) != null) {
+                return json;
+            }
+            return "";
+        }catch(NullPointerException e){
+            System.out.println("Invalid category name");
         }
-        return "";
+        return"";
     }
 
 }
