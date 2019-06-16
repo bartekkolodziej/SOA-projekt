@@ -17,6 +17,9 @@ public class OrderedDish extends AbstractDTO {
     @ManyToOne
     private Order order;
 
+    @ManyToOne
+    private Subscription subscription;
+
     public int getId() {
         return id;
     }
@@ -33,13 +36,19 @@ public class OrderedDish extends AbstractDTO {
         this.id = id;
     }
 
-
-
     public Order getOrder() {
         return order;
     }
 
     public void setOrder(Order order) {
         this.order = order;
+    }
+
+    public Subscription getSubscription() {
+        return subscription;
+    }
+
+    public void setSubscription(Subscription subscription) {
+        this.subscription = subscription;
     }
 }

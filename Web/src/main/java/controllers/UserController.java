@@ -2,11 +2,9 @@ package controllers;
 
 import dao.OrderDAO;
 import dao.OrderedDishDAO;
+import dao.SubscriptionDAO;
 import dao.UserDAO;
-import ejb.dto.Dish;
-import ejb.dto.Order;
-import ejb.dto.OrderedDish;
-import ejb.dto.User;
+import ejb.dto.*;
 import ejb.exceptions.InvalidLoginCredentialsException;
 import ejb.implementation.UserManagerBean;
 
@@ -28,7 +26,7 @@ public class UserController implements Serializable {
 
     private String action;
 
-    private List<String> roles = Arrays.asList("admin", "client", "manager", "staff", "supplier");
+    private List<String> roles = Arrays.asList("client", "manager", "staff", "supplier");
 
     public List<String> getRoles() {
         return roles;
@@ -55,11 +53,15 @@ public class UserController implements Serializable {
     }
 
     public String register() throws InvalidLoginCredentialsException {
-        User registeredUser  = this.userManagerBean.createUser(this.user);
+        if(user.getRole() == null)
+            user.setRole("client");
+
+        User registeredUser  = userManagerBean.createUser(user);
+
         if (registeredUser != null) {
             ApplicationController.getInstance().setLoggedUser(registeredUser);
             ApplicationController.getInstance().setLoginAndRegistrationStatus("Logged correctly as: " + user.getLogin());
-            return "menu?faces-redirect=true";
+            return "index?faces-redirect=true";
         } else {
             ApplicationController.getInstance().setLoginAndRegistrationStatus("Something went wrong");
             return "addUser?faces-redirect=true";
@@ -71,7 +73,7 @@ public class UserController implements Serializable {
         if(loggedUser != null){
             ApplicationController.getInstance().setLoggedUser(loggedUser);
             ApplicationController.getInstance().setLoginAndRegistrationStatus("Logged correctly as: " + loggedUser.getLogin() +"(" + loggedUser.getRole()+")");
-            return "menu?faces-redirect=true";
+            return "index?faces-redirect=true";
         } else {
             ApplicationController.getInstance().setLoginAndRegistrationStatus("Invalid login or password");
             return "addUser?faces-redirect=true";
@@ -80,14 +82,20 @@ public class UserController implements Serializable {
 
     public String redirectToUserPage(String action) {
         this.action = action;
+        if(action.equals("login"))
+            ApplicationController.getInstance().setLoginAndRegistrationStatus("");
         return "addUser?faces-redirect=true";
     }
 
     public String redirectToUserProfile() {
-        if(ApplicationController.getInstance().getLoggedUser().getRole().equals("client"))
+        if(ApplicationController.getInstance().getLoggedUser().getRole().equals("client")) {
             ApplicationController.getInstance().updateUserOrderList();
-        else
+            ApplicationController.getInstance().updateUserSubscriptionsList();
+        }
+        else {
             ApplicationController.getInstance().updateOrderList();
+            ApplicationController.getInstance().updateSubscriptionsList();
+        }
         return "userProfile?faces-redirect=true";
     }
 
@@ -100,12 +108,26 @@ public class UserController implements Serializable {
 
     public void removeDishFromDB(Order order, OrderedDish orderedDish){
         order.getOrderedDishes().remove(orderedDish);
+        order.setPrice(order.getPrice() - orderedDish.getDish().getPrice());
         OrderedDishDAO.getInstance().deleteItem(orderedDish.getId());
         OrderDAO.getInstance().updateItem(order);
+    }
+
+    public void removeDishFromDB(Subscription subscription, OrderedDish orderedDish){
+        subscription.getDishes().remove(orderedDish);
+        OrderedDishDAO.getInstance().deleteItem(orderedDish.getId());
+        SubscriptionDAO.getInstance().updateItem(subscription);
     }
 
     public void removeOrderFromDB(Order order){
        OrderDAO.getInstance().deleteItem(order.getId());
         ApplicationController.getInstance().updateUserOrderList();
+        ApplicationController.getInstance().updateOrderList();
+    }
+
+    public void removeSubscriptionFromDB(Subscription subscription){
+        SubscriptionDAO.getInstance().deleteItem(subscription.getId());
+        ApplicationController.getInstance().updateUserSubscriptionsList();
+        ApplicationController.getInstance().updateSubscriptionsList();
     }
 }

@@ -7,7 +7,6 @@ import ejb.interfaces.UserManager;
 
 import javax.ejb.Stateless;
 import java.util.List;
-import java.util.Random;
 
 @Stateless
 public class UserManagerBean implements UserManager {
@@ -36,8 +35,6 @@ public class UserManagerBean implements UserManager {
     }
 
     public User createUser(User user) {
-        Random generator = new Random();
-        user.setId(generator.nextInt(999999)); //TODO - zrobic automatyczne generowanie ID dla kazdej klasy
         UserDAO.getInstance().addItem(user);
         return user;
     }

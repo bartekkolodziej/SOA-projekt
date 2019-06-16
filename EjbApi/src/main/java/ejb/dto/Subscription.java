@@ -1,6 +1,7 @@
 package ejb.dto;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity()
 @Table(name = "Subscriptions")
@@ -12,8 +13,17 @@ public class Subscription extends AbstractDTO{
     @Column(name = "frequency")
     private String frequency;
 
-    @OneToOne
-    private Order order;
+    @Column(name = "time")
+    private String time;
+
+    @OneToMany(mappedBy = "subscription", orphanRemoval = true)
+    private List<OrderedDish> dishes;
+
+    @Column(name = "price")
+    private Integer price;
+
+    @Column(name = "status")
+    private String status;
 
     @ManyToOne
     @JoinColumn(name="customer_id")
@@ -35,12 +45,12 @@ public class Subscription extends AbstractDTO{
         this.frequency = frequency;
     }
 
-    public Order getOrder() {
-        return order;
+    public List<OrderedDish> getDishes() {
+        return dishes;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
+    public void setDishes(List<OrderedDish> dishes) {
+        this.dishes = dishes;
     }
 
     public User getCustomer() {
@@ -49,5 +59,29 @@ public class Subscription extends AbstractDTO{
 
     public void setCustomer(User customer) {
         this.customer = customer;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

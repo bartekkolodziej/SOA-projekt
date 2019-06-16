@@ -1,18 +1,28 @@
 package ejb.implementation;
 
 import dao.SubscriptionDAO;
-import ejb.dto.Order;
+import ejb.dto.OrderedDish;
 import ejb.dto.Subscription;
 import ejb.dto.User;
-import ejb.interfaces.SubsrciptionManager;
+import ejb.interfaces.SubscriptionManager;
 
-public class SubscriptionManagerBean implements SubsrciptionManager {
-    @Override
-    public void addSubscription(String frequency, Order order, User customer) {
+import java.util.List;
+
+public class SubscriptionManagerBean implements SubscriptionManager {
+    public Subscription addSubscription(String frequency, String time, Integer price, List<OrderedDish> orderedDishes, User customer) {
         Subscription subscription = new Subscription();
         subscription.setCustomer(customer);
+        subscription.setDishes(orderedDishes);
+        subscription.setPrice(price);
         subscription.setFrequency(frequency);
-        subscription.setOrder(order);
+        subscription.setTime(time);
+        subscription.setStatus("ongoing");
         SubscriptionDAO.getInstance().addItem(subscription);
+        return subscription;
     }
+
+    public void removeSubscription(Integer subId) {
+       SubscriptionDAO.getInstance().deleteItem(subId);
+    }
+
 }

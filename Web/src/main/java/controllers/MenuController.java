@@ -1,106 +1,83 @@
 package controllers;
 
-import dao.CategoryDAO;
-
-import dao.OrderDAO;
-import dao.OrderedDishDAO;
-import dao.UserDAO;
-import ejb.dto.Category;
-import ejb.dto.Dish;
-import ejb.dto.Order;
-import ejb.dto.OrderedDish;
-import ejb.implementation.BillManagerBean;
-import ejb.implementation.OrderManagerBean;
-import ejb.implementation.OrderedDishManagerBean;
+import ejb.dto.*;
+import ejb.implementation.MenuManagerBean;
 
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.view.ViewScoped;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
+import java.io.Serializable;
 import java.util.List;
 
-@javax.faces.bean.ViewScoped
+@SessionScoped
 @ManagedBean(name = "MenuController")
-public class MenuController {
+public class MenuController implements Serializable {
 
-    private BillManagerBean billManagerBean = new BillManagerBean();
-    private OrderManagerBean orderManagerBean = new OrderManagerBean();
-    private OrderedDishManagerBean orderedDishManagerBean = new OrderedDishManagerBean();
+    private MenuManagerBean menuManagerBean = new MenuManagerBean();
 
     public MenuController() {
-        this.getCategoriesFromDB();
     }
 
-    private List<Category> categories;
+    private String menuName;
 
-    public List<Category> getCategories() {
-        return categories;
+    private List<Menu> archivedMenus = menuManagerBean.getArchivedMenus();
+
+    private String menuToChange;
+
+    public String getMenuToChange() {
+        return menuToChange;
     }
 
-    public void setCategories(List<Category> categories) {
-        this.categories = categories;
+    public void setMenuToChange(String menuToChange) {
+        this.menuToChange = menuToChange;
     }
 
-    public void getCategoriesFromDB(){
-        this.categories = CategoryDAO.getInstance().getItems();
+    public String onArchiveMenuSelect() {
+        menuManagerBean.unarchiveMenu(menuToChange);
+        updateArchivedMenus();
+        return "index?faces-redirect=true";
     }
 
-    private int finalValue = 0;
-
-    private List<Dish> dishesInCart = new ArrayList<>();
-
-    public List<Dish> getDishesInCart() {
-        return dishesInCart;
+    public List<Menu> getArchivedMenus() {
+        return archivedMenus;
     }
 
-    public void setDishesInCart(List<Dish> dishesInCart) {
-        this.dishesInCart = dishesInCart;
+    public void setArchivedMenus(List<Menu> archivedMenus) {
+        this.archivedMenus = archivedMenus;
     }
 
-    public void setFinalValue(int finalValue) {
-        this.finalValue = finalValue;
+    public String getMenuName() {
+        return menuName;
     }
 
-    public int getFinalValue() {
-        return finalValue;
+    public void setMenuName(String menuName) {
+        this.menuName = menuName;
     }
 
-    public void addDishToCart(Dish dish) {
-        this.dishesInCart.add(dish);
-        this.finalValue += dish.getPrice();
+    public String addMenu(){
+        menuManagerBean.addMenu(menuName);
+        updateArchivedMenus();
+        return "index?faces-redirect=true";
     }
 
-    public void order() {
-        List<OrderedDish> orderedDishes = new ArrayList<>();
-        for(Dish o : this.dishesInCart ){
-            orderedDishes.add(orderedDishManagerBean.addOrderedDish(o, null));
-        }
-        Order order = orderManagerBean.addOrder(null, ApplicationController.getInstance().getLoggedUser(), new Date(), null, "inProgress", this.finalValue);
-
-        orderedDishes.forEach(e -> {
-            e.setOrder(order);
-            OrderedDishDAO.getInstance().updateItem(e);
-        });
-
-        order.setOrderedDishes(orderedDishes);;
-        OrderDAO.getInstance().updateItem(order);
-
-        List<Order> orders = Arrays.asList(order);
-        this.billManagerBean.addBill(ApplicationController.getInstance().getLoggedUser(), finalValue, orders);
-        ApplicationController.getInstance().getLoggedUser().setOrders(orders);
-        UserDAO.getInstance().updateItem(ApplicationController.getInstance().getLoggedUser());
-
-        this.finalValue = 0;
-        this.dishesInCart = new ArrayList<>();
-        orderedDishes = new ArrayList<>();
-    }
-
-    public void removeFromCart(Dish dish){
-        this.dishesInCart.remove(dish);
+    public String redirectToMenuPage(){
+        return "menuPage?faces-redirect=true";
     }
 
 
+    public String removeMenu(Menu menu){
+        menuManagerBean.deleteMenu(menu);
+        updateArchivedMenus();
+        return "index?faces-redirect=true";
+    }
+
+    public String archiveMenu(Menu menu){
+        menuManagerBean.archiveMenu(menu);
+        updateArchivedMenus();
+        return "index?faces-redirect=true";
+    }
+
+    private void updateArchivedMenus() {
+        this.archivedMenus = menuManagerBean.getArchivedMenus();
+    }
 }
