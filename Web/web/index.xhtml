@@ -111,10 +111,10 @@
         <h:panelGroup layout="block" rendered="#{ApplicationController.getInstance().loggedUser != null}">
             <h:outputText value="#{ApplicationController.getInstance().loginAndRegistrationStatus}"/> <br/>
             <h:form>
-                <h:commandButton action="#{ApplicationController.getInstance().logout()}" value="Logout"/>
-            </h:form>
-            <h:form>
-                <h:commandButton action="#{UserController.redirectToUserProfile}" value="Check profil"/>
+                <h:commandButton action="#{UserController.redirectToUserPage('createUser')}" value="Add new user"
+                                 rendered="#{ApplicationController.getInstance().loggedUser.role eq 'admin'}"/> <br/>
+                <h:commandButton action="#{ApplicationController.getInstance().logout()}" value="Logout"/> <br/>
+                <h:commandButton action="#{UserController.redirectToUserProfile}" value="Check profil"/> <br/>
             </h:form>
         </h:panelGroup>
 

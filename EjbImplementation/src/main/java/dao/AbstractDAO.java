@@ -72,6 +72,7 @@ public abstract class AbstractDAO<T extends AbstractDTO>  {
         try {
             transaction = manager.getTransaction();
             transaction.begin();
+            item.setId(getNextId());
             manager.persist(item);
             transaction.commit();
         } catch (Exception ex) {
@@ -128,5 +129,16 @@ public abstract class AbstractDAO<T extends AbstractDTO>  {
         } finally {
             manager.close();
         }
+    }
+
+    private int getNextId() {
+        int nextIt = 1;
+        List<T> items = getItems();
+
+        for(T item : items){
+            if(item.getId() > nextIt)
+                nextIt = item.getId();
+        }
+        return nextIt + 1;
     }
 }

@@ -3,13 +3,13 @@ package ejb.implementation;
 import dao.CategoryDAO;
 import dao.OrderDAO;
 import dao.OrderedDishDAO;
+import dao.SubscriptionDAO;
 import ejb.dto.Category;
 import ejb.dto.Menu;
 import ejb.dto.OrderedDish;
 import ejb.interfaces.CategoryManager;
 
 import java.util.List;
-import java.util.Random;
 
 public class CategoryManagerBean implements CategoryManager {
 
@@ -33,8 +33,6 @@ public class CategoryManagerBean implements CategoryManager {
     }
 
     public void addCategory(Category category, Menu menu) {
-        Random generator = new Random();
-        category.setId(generator.nextInt(999999)); //TODO - zrobic automatyczne generowanie ID dla kazdej klasy
         category.setMenu(menu);
         category.setStatus("available");
         CategoryDAO.getInstance().addItem(category);
@@ -48,12 +46,16 @@ public class CategoryManagerBean implements CategoryManager {
         for(OrderedDish od: orderedDishes){
             if(od.getDish().getCategory().getId() == categoryId) {
                 canBeDeleted = false;
-                System.out.println("order status: " + od.getOrder().getStatus());
-                if(od.getOrder().getStatus().equals("delivered")) {
+                if(od.getOrder() != null && od.getOrder().getStatus().equals("delivered")) {
                     archiveCategory(category);
-                } else {
+                } else if(od.getOrder() != null) {
                     od.getOrder().setStatus("deleted");
                     OrderDAO.getInstance().updateItem(od.getOrder());
+                    archiveCategory(category);
+                }
+                if(od.getSubscription() != null && od.getSubscription().getStatus().equals("ongoing")){
+                    od.getSubscription().setStatus("deleted");
+                    SubscriptionDAO.getInstance().updateItem(od.getSubscription());
                     archiveCategory(category);
                 }
             }

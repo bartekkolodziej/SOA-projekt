@@ -1,12 +1,11 @@
 package controllers;
 
-import dao.BillDAO;
 import dao.OrderDAO;
+import dao.SubscriptionDAO;
 import dao.UserDAO;
-import ejb.dto.Bill;
 import ejb.dto.Order;
+import ejb.dto.Subscription;
 import ejb.dto.User;
-import org.w3c.dom.UserDataHandler;
 
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
@@ -30,6 +29,10 @@ public class ApplicationController implements Serializable {
 
     private List<Order> orders = null;
 
+    private List<Subscription> subscriptions = null;
+
+    private int finalBill;
+
     public User getLoggedUser() {
         return loggedUser;
     }
@@ -47,8 +50,6 @@ public class ApplicationController implements Serializable {
     public void setLoginAndRegistrationStatus(String loginAndRegistrationStatus) {
         this.loginAndRegistrationStatus = loginAndRegistrationStatus;
     }
-
-
 
     public String logout() {
         this.loggedUser = null;
@@ -72,5 +73,32 @@ public class ApplicationController implements Serializable {
 
     public void setOrders(List<Order> orders) {
         this.orders = orders;
+    }
+
+    public List<Subscription> getSubscriptions() {
+        return subscriptions;
+    }
+
+    public void setSubscriptions(List<Subscription> subscriptions) {
+        this.subscriptions = subscriptions;
+    }
+
+    public void updateUserSubscriptionsList() {
+        instance.getLoggedUser().setSubscriptions(UserDAO.getInstance().getItem(instance.loggedUser.getId()).getSubscriptions());
+    }
+
+    public String updateSubscriptionsList() {
+        this.subscriptions = SubscriptionDAO.getInstance().getItems();
+        return "userProfile?faces-redirect=true";
+    }
+
+    public int getFinalBill() {
+        finalBill = 0;
+        ApplicationController.getInstance().loggedUser.getOrders().forEach( e -> finalBill += e.getPrice());
+        return finalBill;
+    }
+
+    public void setFinalBill(int finalBill) {
+        this.finalBill = finalBill;
     }
 }

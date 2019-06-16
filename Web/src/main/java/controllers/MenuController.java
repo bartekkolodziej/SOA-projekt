@@ -1,24 +1,12 @@
 package controllers;
 
-import dao.CategoryDAO;
-
-import dao.OrderDAO;
-import dao.OrderedDishDAO;
-import dao.UserDAO;
 import ejb.dto.*;
-import ejb.implementation.BillManagerBean;
 import ejb.implementation.MenuManagerBean;
-import ejb.implementation.OrderManagerBean;
-import ejb.implementation.OrderedDishManagerBean;
 
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.view.ViewScoped;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 @SessionScoped

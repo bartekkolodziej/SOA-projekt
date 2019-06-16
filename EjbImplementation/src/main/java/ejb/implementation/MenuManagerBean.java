@@ -1,15 +1,11 @@
 package ejb.implementation;
 
 
-import dao.CategoryDAO;
 import dao.MenuDAO;
-import ejb.dto.Category;
 import ejb.dto.Menu;
 import ejb.interfaces.MenuManager;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 public class MenuManagerBean implements MenuManager {
@@ -50,7 +46,7 @@ public class MenuManagerBean implements MenuManager {
 
     public void deleteMenu(Menu menu) {
         menu.setStatus("deleted");
-        menu.getCategories().stream().forEach(e -> categoryManagerBean.deleteCategory(e.getId()));
+        menu.getCategories().forEach(e -> categoryManagerBean.deleteCategory(e.getId()));
         MenuDAO.getInstance().updateItem(menu);
     }
 
@@ -81,8 +77,6 @@ public class MenuManagerBean implements MenuManager {
         });
 
         Menu menu = new Menu();
-        Random generator = new Random();
-        menu.setId(generator.nextInt(999999)); //TODO - zrobic automatyczne generowanie ID dla kazdej klasy
         menu.setMenuName(menuName);
         menu.setStatus("current");
         MenuDAO.getInstance().addItem(menu);

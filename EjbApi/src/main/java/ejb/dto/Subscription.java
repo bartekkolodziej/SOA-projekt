@@ -16,11 +16,14 @@ public class Subscription extends AbstractDTO{
     @Column(name = "time")
     private String time;
 
-    @OneToMany(mappedBy = "subscription")
+    @OneToMany(mappedBy = "subscription", orphanRemoval = true)
     private List<OrderedDish> dishes;
 
     @Column(name = "price")
     private Integer price;
+
+    @Column(name = "status")
+    private String status;
 
     @ManyToOne
     @JoinColumn(name="customer_id")
@@ -72,5 +75,13 @@ public class Subscription extends AbstractDTO{
 
     public void setPrice(Integer price) {
         this.price = price;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
