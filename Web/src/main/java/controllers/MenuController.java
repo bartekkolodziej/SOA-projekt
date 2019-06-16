@@ -28,31 +28,26 @@ public class MenuController implements Serializable {
     private MenuManagerBean menuManagerBean = new MenuManagerBean();
 
     public MenuController() {
-        this.updateMenu();
     }
 
-    private Menu menu;
+    private String menuName;
 
     private List<Menu> archivedMenus = menuManagerBean.getArchivedMenus();
 
-    private Menu menuToChange;
+    private String menuToChange;
 
-    public Menu getMenuToChange() {
+    public String getMenuToChange() {
         return menuToChange;
     }
 
-    public void setMenuToChange(Menu menuToChange) {
+    public void setMenuToChange(String menuToChange) {
         this.menuToChange = menuToChange;
     }
 
     public String onArchiveMenuSelect() {
-        System.out.println("menu to change:  " + menuToChange);
         menuManagerBean.unarchiveMenu(menuToChange);
+        updateArchivedMenus();
         return "index?faces-redirect=true";
-    }
-
-    public void updateMenu(){
-        this.menu = menuManagerBean.getCurrentMenu();
     }
 
     public List<Menu> getArchivedMenus() {
@@ -63,16 +58,18 @@ public class MenuController implements Serializable {
         this.archivedMenus = archivedMenus;
     }
 
-    public Menu getMenu() {
-        return menu;
+    public String getMenuName() {
+        return menuName;
     }
 
-    public void setMenu(Menu menu) {
-        this.menu = menu;
+    public void setMenuName(String menuName) {
+        this.menuName = menuName;
     }
 
-    public void addMenu(){
-        menuManagerBean.addMenu(menu);
+    public String addMenu(){
+        menuManagerBean.addMenu(menuName);
+        updateArchivedMenus();
+        return "index?faces-redirect=true";
     }
 
     public String redirectToMenuPage(){
@@ -80,4 +77,19 @@ public class MenuController implements Serializable {
     }
 
 
+    public String removeMenu(Menu menu){
+        menuManagerBean.deleteMenu(menu);
+        updateArchivedMenus();
+        return "index?faces-redirect=true";
+    }
+
+    public String archiveMenu(Menu menu){
+        menuManagerBean.archiveMenu(menu);
+        updateArchivedMenus();
+        return "index?faces-redirect=true";
+    }
+
+    private void updateArchivedMenus() {
+        this.archivedMenus = menuManagerBean.getArchivedMenus();
+    }
 }

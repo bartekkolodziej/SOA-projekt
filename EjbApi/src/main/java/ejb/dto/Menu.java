@@ -17,7 +17,7 @@ public class Menu extends AbstractDTO {
     @Column(name = "menuName", nullable = false)
     private String menuName;
 
-    @OneToMany(mappedBy = "menu")
+    @OneToMany(mappedBy = "menu", orphanRemoval = true)
     private List<Category> categories;
 
     @Override

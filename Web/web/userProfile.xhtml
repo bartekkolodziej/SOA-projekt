@@ -7,17 +7,21 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 <f:view>
+    <h:button outcome="index" value="Back"/>
+    <br/>
+    <br/>
+
     <h:outputLabel value="Hello, #{ApplicationController.getInstance().loggedUser.name}"/><br/>
     <h:outputLabel value="Your role is #{ApplicationController.getInstance().loggedUser.role}"/><br/>
 
 
         <h:panelGroup layout="block" rendered="#{ApplicationController.getInstance().loggedUser.role eq 'client'}">
             <h:form>
-            <h5>Your orders</h5>
+            <h4>Your orders</h4>
             <div style="display:flex; justify-content: flex-start; flex-wrap: wrap">
                 <ui:repeat value="#{ApplicationController.getInstance().loggedUser.orders}" var="order"
                            id="ordersClient">
-                    <div style="border: 1px solid gray; margin: 16px; position: relative; padding: 8px 8px 32px; min-width: 400px">
+                    <h:panelGroup style="border: 1px solid gray; margin: 16px; position: relative; padding: 8px 8px 32px; min-width: 400px">
                         Status: #{order.status}<br/>
                         Price: #{order.price}<br/>
                         Order date: #{order.orderDate}<br/>
@@ -28,7 +32,7 @@
                                 <ui:repeat id="orderedDishes" value="#{order.orderedDishes}" var="orderedDish">
                                     <li style="display:flex; justify-content: space-between">#{orderedDish.dish.name}
                                         <p:commandButton value="Remove dish" update="orderedDishes"
-                                                         rendered="#{order.status ne 'delivered'}"
+                                                         rendered="#{order.status ne 'delivered' and order.status ne 'deleted'}"
                                                          action="#{UserController.removeDishFromDB(order, orderedDish)}"/>
 
                                     </li>
@@ -37,20 +41,47 @@
                         </div>
                         <p:commandButton style="position: absolute; bottom:0;"
                                          value="Remove Order" update="ordersClient"
-                                         rendered="#{order.status ne 'delivered'}"
+                                         rendered="#{order.status ne 'delivered' and order.status ne 'deleted'}"
                                          action="#{UserController.removeOrderFromDB(order)}"/>
-                    </div>
+                    </h:panelGroup>
                 </ui:repeat>
+            </div>
+                <h4>Your subscriptions</h4>
+                <div style="display:flex; justify-content: flex-start; flex-wrap: wrap">
+                    <ui:repeat value="#{ApplicationController.getInstance().loggedUser.subscriptions}" var="subscription">
+                        <h:panelGroup style="border: 1px solid gray; margin: 16px; position: relative; padding: 8px 8px 32px; min-width: 400px">
+                            Frequency: #{subscription.frequency}<br/>
+                            Time: #{subscription.time}<br/>
+                            Price: #{subscription.time}<br/>
+                            <div>
+                                Ordered dishes:
+                                <ol>
+                                    <ui:repeat id="orderedDishes" value="#{subscription.dishes}" var="orderedDish">
+                                        <li style="display:flex; justify-content: space-between">#{orderedDish.dish.name}
+                                            <p:commandButton value="Remove dish" update="orderedDishes"
+                                                             rendered="#{order.status ne 'delivered' and order.status ne 'deleted'}"
+                                                             action="#{UserController.removeDishFromDB(order, orderedDish)}"/>
+
+                                        </li>
+                                    </ui:repeat>
+                                </ol>
+                            </div>
+                            <p:commandButton style="position: absolute; bottom:0;"
+                                             value="Remove Order" update="ordersClient"
+                                             rendered="#{order.status ne 'delivered' and order.status ne 'deleted'}"
+                                             action="#{UserController.removeOrderFromDB(order)}"/>
+                        </h:panelGroup>
+                    </ui:repeat>
             </div>
     </h:form>
 </h:panelGroup>
 
     <h:panelGroup layout="block" rendered="#{ApplicationController.getInstance().loggedUser.role eq 'staff'}">
         <h:form>
-            <h5>Orders to prepare</h5>
+            <h4>Orders to prepare</h4>
             <div style="display:flex; justify-content: flex-start; flex-wrap: wrap">
 
-                <ui:repeat value="#{ApplicationController.getInstance().orders}" var="order" id="ordersStaff">
+                <ui:repeat value="#{ApplicationController.getInstance().orders}" var="order" id="ordersStaff" >
                     <div style="border: 1px solid gray; margin: 16px; position: relative; padding: 8px 8px 32px; min-width: 400px">
                         Status: #{order.status}<br/>
                         Price: #{order.price}<br/>
@@ -82,7 +113,7 @@
 
     <h:panelGroup layout="block" rendered="#{ApplicationController.getInstance().loggedUser.role eq 'supplier'}">
         <h:form>
-            <h5>Orders to deliver</h5>
+            <h4>Orders to deliver</h4>
             <div style="display:flex; justify-content: flex-start; flex-wrap: wrap">
                 <ui:repeat value="#{ApplicationController.getInstance().orders}" var="order" id="ordersSupplier">
                     <div style="border: 1px solid gray; margin: 16px; position: relative; padding: 8px 8px 32px; min-width: 400px">

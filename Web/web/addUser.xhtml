@@ -6,6 +6,10 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <f:view>
+    <h:button outcome="index" value="Back"/>
+    <br/>
+    <br/>
+
     <h:panelGroup rendered="#{UserController.action.equals('register')}">
         <h1>Registration</h1>
         <h:form>

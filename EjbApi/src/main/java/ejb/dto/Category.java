@@ -4,7 +4,6 @@ import javax.persistence.*;
 import java.util.List;
 
 
-
 @Entity()
 @Table(name = "Categories")
 public class Category extends AbstractDTO {
@@ -16,6 +15,8 @@ public class Category extends AbstractDTO {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "status", nullable = false)
+    private String status;
 
     @OneToMany(mappedBy = "category", orphanRemoval = true)
     private List<Dish> dishes;
@@ -54,5 +55,13 @@ public class Category extends AbstractDTO {
 
     public void setMenu(Menu menu) {
         this.menu = menu;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

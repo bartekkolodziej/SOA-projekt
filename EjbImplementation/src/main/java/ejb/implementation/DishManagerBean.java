@@ -1,6 +1,7 @@
 package ejb.implementation;
 
 import dao.DishDAO;
+import dao.OrderDAO;
 import dao.OrderedDishDAO;
 import ejb.dto.Dish;
 import ejb.dto.OrderedDish;
@@ -44,15 +45,24 @@ public class DishManagerBean implements DishManager {
     public void deleteDish(Integer dishId) {
         Dish dish = DishDAO.getInstance().getItem(dishId);
         List<OrderedDish> orderedDishes = OrderedDishDAO.getInstance().getItems();
+        boolean canBeDeleted = true;
 
        for(OrderedDish od: orderedDishes){
            if(od.getDish().getId() == dishId) {
-               archiveDish(dish);
-                return;
+               canBeDeleted = false;
+               System.out.println("order status: " + od.getOrder().getStatus());
+               if(od.getOrder().getStatus().equals("delivered")) {
+                   archiveDish(dish);
+               } else {
+                   od.getOrder().setStatus("deleted");
+                   OrderDAO.getInstance().updateItem(od.getOrder());
+                   archiveDish(dish);
+               }
            }
        }
 
-       DishDAO.getInstance().deleteItem(dishId);
+       if(canBeDeleted)
+         DishDAO.getInstance().deleteItem(dishId);
     }
 
     public void archiveDish(Dish dish) {

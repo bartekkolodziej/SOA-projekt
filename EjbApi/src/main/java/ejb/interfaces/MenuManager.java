@@ -9,9 +9,9 @@ public interface MenuManager {
     Menu getCurrentMenu();
     List<Menu> getArchivedMenus();
     Menu getMenu(Integer menuId);
-    void deleteMenu(Integer menuId);
+    void deleteMenu(Menu menu);
     void archiveMenu(Menu menu);
-    void unarchiveMenu(Menu menu);
-    void addMenu(Menu menu);
+    void unarchiveMenu(String menuName);
+    void addMenu(String menuName);
 
 }

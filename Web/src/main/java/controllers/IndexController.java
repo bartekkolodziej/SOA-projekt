@@ -7,17 +7,11 @@ import ejb.dto.Dish;
 import ejb.dto.Menu;
 import ejb.dto.Order;
 import ejb.dto.OrderedDish;
-import ejb.implementation.BillManagerBean;
-import ejb.implementation.MenuManagerBean;
-import ejb.implementation.OrderManagerBean;
-import ejb.implementation.OrderedDishManagerBean;
+import ejb.implementation.*;
 
 import javax.faces.bean.ManagedBean;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @javax.faces.bean.ViewScoped
 @ManagedBean(name = "IndexController")
@@ -27,12 +21,43 @@ public class IndexController implements Serializable {
     private OrderManagerBean orderManagerBean = new OrderManagerBean();
     private OrderedDishManagerBean orderedDishManagerBean = new OrderedDishManagerBean();
     private MenuManagerBean menuManagerBean = new MenuManagerBean();
+    private SubscriptionManagerBean subscriptionManagerBean = new SubscriptionManagerBean();
 
     public IndexController() {
         this.updateMenu();
     }
 
     private Menu menu;
+
+    private String subFrequency;
+
+    public List<String> getFrequencies() {
+        return frequencies;
+    }
+
+    public void setFrequencies(List<String> frequencies) {
+        this.frequencies = frequencies;
+    }
+
+    private List<String> frequencies = Arrays.asList("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "Every day");
+
+    private String time;
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getSubFrequency() {
+        return subFrequency;
+    }
+
+    public void setSubFrequency(String subFrequency) {
+        this.subFrequency = subFrequency;
+    }
 
     private int finalValue = 0;
 
@@ -87,10 +112,10 @@ public class IndexController implements Serializable {
             OrderedDishDAO.getInstance().updateItem(e);
         });
 
-        order.setOrderedDishes(orderedDishes);;
+        order.setOrderedDishes(orderedDishes);
         OrderDAO.getInstance().updateItem(order);
 
-        List<Order> orders = Arrays.asList(order);
+        List<Order> orders = Collections.singletonList(order);
         this.billManagerBean.addBill(ApplicationController.getInstance().getLoggedUser(), finalValue, orders);
         ApplicationController.getInstance().getLoggedUser().setOrders(orders);
         UserDAO.getInstance().updateItem(ApplicationController.getInstance().getLoggedUser());
@@ -100,4 +125,14 @@ public class IndexController implements Serializable {
         orderedDishes = new ArrayList<>();
     }
 
+    public void subscribe(){
+        List<OrderedDish> orderedDishes = new ArrayList<>();
+        for(Dish o : this.dishesInCart ){
+            orderedDishes.add(orderedDishManagerBean.addOrderedDish(o, null));
+        }
+        System.out.println("subscription props: " + time + subFrequency);
+        subscriptionManagerBean.addSubscription(subFrequency, time, finalValue, orderedDishes, ApplicationController.getInstance().getLoggedUser());
+        finalValue = 0;
+        time = "";
+    }
 }

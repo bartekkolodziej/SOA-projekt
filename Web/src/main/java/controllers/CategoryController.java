@@ -3,6 +3,7 @@ package controllers;
 import dao.CategoryDAO;
 import ejb.dto.Category;
 import ejb.implementation.CategoryManagerBean;
+import ejb.implementation.MenuManagerBean;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -12,6 +13,7 @@ import javax.faces.bean.SessionScoped;
 public class CategoryController {
 
     private CategoryManagerBean categoryManagerBean = new CategoryManagerBean();
+    private MenuManagerBean menuManagerBean = new MenuManagerBean();
 
     private Category category;
 
@@ -34,12 +36,12 @@ public class CategoryController {
     }
 
     public String addCategory() {
-        this.categoryManagerBean.addCategory(this.category);
+        this.categoryManagerBean.addCategory(this.category, menuManagerBean.getCurrentMenu());
         return "index?faces-redirect=true";
     }
 
     public void removeCategory(Integer categoryId) {
-        CategoryDAO.getInstance().deleteItem(categoryId);
+        categoryManagerBean.deleteCategory(categoryId);
     }
 
     public String updateCategory(){

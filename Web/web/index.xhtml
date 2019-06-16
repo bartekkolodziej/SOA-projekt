@@ -23,51 +23,53 @@
         <h1>#{IndexController.menu.menuName}</h1>
         <ol>
             <ui:repeat value="#{IndexController.menu.categories}" var="category">
-                <li>
-                    <div style="display: flex; justify-content:space-between; width: 200px; border: 1px solid grey; padding: 8px">
-                        #{category.name}
-                        <h:form>
-                            <h:commandButton action="#{CategoryController.redirectToCategoryPage(category)}"
-                                             rendered="#{ApplicationController.getInstance().loggedUser.role.equals('manager') ||
+                <h:panelGroup rendered="#{category.status eq 'available'}">
+                    <li>
+                        <div style="display: flex; justify-content:space-between; width: 200px; border: 1px solid grey; padding: 8px">
+                            #{category.name}
+                            <h:form>
+                                <h:commandButton action="#{CategoryController.redirectToCategoryPage(category)}"
+                                                 rendered="#{ApplicationController.getInstance().loggedUser.role.equals('manager') ||
                                                      ApplicationController.getInstance().loggedUser.role.equals('admin')}"
-                                             value="Edit"/>
-                            <h:commandButton action="#{CategoryController.removeCategory(category.id)}"
-                                             rendered="#{ApplicationController.getInstance().loggedUser.role.equals('manager') ||
+                                                 value="Edit"/>
+                                <h:commandButton action="#{CategoryController.removeCategory(category.id)}"
+                                                 rendered="#{ApplicationController.getInstance().loggedUser.role.equals('manager') ||
                                                      ApplicationController.getInstance().loggedUser.role.equals('admin')}"
-                                             value="Remove">
-                                <f:actionListener binding="#{IndexController.updateMenu()}"/>
-                            </h:commandButton>
-                        </h:form>
-                    </div>
-                    <ul>
-                        <ui:repeat value="#{category.dishes}" var="dish">
-                            <h:panelGroup rendered="#{dish.status eq 'available'}">
-                                <li style="display: flex; justify-content:space-between; width: 400px; border: 1px solid grey; padding: 8px">
-                                    <div>Dish: #{dish.name} <br/>
-                                        Weight: #{dish.weight} <br/>
-                                        Price #{dish.price} <br/>
-                                    </div>
-                                    <h:form>
-                                        <h:commandButton action="#{IndexController.addDishToCart(dish)}"
-                                                         rendered="#{ApplicationController.getInstance().loggedUser.role.equals('client')}"
-                                                         value="Add to cart"/><br/>
-                                        <h:commandButton action="#{DishController.redirectToDishPage(dish)}"
-                                                         rendered="#{ApplicationController.getInstance().loggedUser.role.equals('manager') ||
+                                                 value="Remove">
+                                    <f:actionListener binding="#{IndexController.updateMenu()}"/>
+                                </h:commandButton>
+                            </h:form>
+                        </div>
+                        <ul>
+                            <ui:repeat value="#{category.dishes}" var="dish">
+                                <h:panelGroup rendered="#{dish.status eq 'available'}">
+                                    <li style="display: flex; justify-content:space-between; width: 400px; border: 1px solid grey; padding: 8px">
+                                        <div>Dish: #{dish.name} <br/>
+                                            Weight: #{dish.weight} <br/>
+                                            Price #{dish.price} <br/>
+                                        </div>
+                                        <h:form>
+                                            <h:commandButton action="#{IndexController.addDishToCart(dish)}"
+                                                             rendered="#{ApplicationController.getInstance().loggedUser.role.equals('client')}"
+                                                             value="Add to cart"/><br/>
+                                            <h:commandButton action="#{DishController.redirectToDishPage(dish)}"
+                                                             rendered="#{ApplicationController.getInstance().loggedUser.role.equals('manager') ||
                                                      ApplicationController.getInstance().loggedUser.role.equals('admin')}"
-                                                         value="Edit"/> <br/>
-                                        <h:commandButton action="#{DishController.removeDish(dish.id)}"
-                                                         rendered="#{ApplicationController.getInstance().loggedUser.role.equals('manager') ||
+                                                             value="Edit"/> <br/>
+                                            <h:commandButton action="#{DishController.removeDish(dish.id)}"
+                                                             rendered="#{ApplicationController.getInstance().loggedUser.role.equals('manager') ||
                                                      ApplicationController.getInstance().loggedUser.role.equals('admin')}"
-                                                         value="Remove">
-                                            <f:actionListener binding="#{IndexController.updateMenu()}"/>
-                                        </h:commandButton>
-                                        <br/>
-                                    </h:form>
-                                </li>
-                            </h:panelGroup>
-                        </ui:repeat>
-                    </ul>
-                </li>
+                                                             value="Remove">
+                                                <f:actionListener binding="#{IndexController.updateMenu()}"/>
+                                            </h:commandButton>
+                                            <br/>
+                                        </h:form>
+                                    </li>
+                                </h:panelGroup>
+                            </ui:repeat>
+                        </ul>
+                    </li>
+                </h:panelGroup>
             </ui:repeat>
         </ol>
     </h:panelGroup>
@@ -75,15 +77,26 @@
     <h:panelGroup
             rendered="#{ApplicationController.getInstance().loggedUser.role.equals('admin') || ApplicationController.getInstance().loggedUser.role.equals('manager')}">
         <h:form>
+            <h:commandButton action="#{MenuController.removeMenu(IndexController.menu)}"
+                             rendered="#{ApplicationController.getInstance().loggedUser.role.equals('manager') ||
+                                                     ApplicationController.getInstance().loggedUser.role.equals('admin')}"
+                             value="Remove menu"/> <br/>
+            <h:commandButton action="#{MenuController.archiveMenu(IndexController.menu)}"
+                             rendered="#{ApplicationController.getInstance().loggedUser.role.equals('manager') ||
+                                                     ApplicationController.getInstance().loggedUser.role.equals('admin')}"
+                             value="Archive menu"/> <br/>
             <h:commandButton action="#{MenuController.redirectToMenuPage()}" value="Add new menu"/> <br/>
             <h:commandButton action="#{CategoryController.redirectToCategoryPage(null)}" value="Add new category"/><br/>
             <h:commandButton action="#{DishController.redirectToDishPage(null)}" value="Add new dish"/> <br/>
         </h:form>
-        Select archived menu:
-        <h:selectOneMenu value="#{MenuController.menuToChange}">
-            <f:selectItems value="#{MenuController.archivedMenus}" var="archivedMenu" itemLabel="#{archivedMenu.menuName}" itemValue="#{archivedMenu}"/>
-            <p:ajax event="change" listener="#{MenuController.onArchiveMenuSelect()}" />
-        </h:selectOneMenu> <br/>
+        <h:form rendered="#{MenuController.archivedMenus.size() ne 0}">
+            Select archived menu:
+            <h:selectOneMenu value="#{MenuController.menuToChange}">
+                <f:selectItems value="#{MenuController.archivedMenus}" var="archivedMenu"
+                               itemLabel="#{archivedMenu.menuName}" itemValue="#{archivedMenu.menuName}"/>
+            </h:selectOneMenu> <br/>
+            <h:commandButton action="#{MenuController.onArchiveMenuSelect()}" value="Change menu"/> <br/>
+        </h:form>
     </h:panelGroup>
 
 
@@ -125,9 +138,25 @@
         </ol>
         <br/>
         Final price: #{IndexController.finalValue} <br/>
-        <h:form>
+        <h:form rendered="#{IndexController.dishesInCart.size() ne 0}">
             <h:commandButton action="#{IndexController.order()}" value="Order"/>
         </h:form>
+        <br/>
+        <br/>
+        <br/>
+        <h:panelGroup rendered="#{IndexController.dishesInCart.size() ne 0}">
+            <h:form>
+            Subscription <br/>
+            Day:
+            <h:selectOneMenu value="#{IndexController.subFrequency}">
+                <f:selectItems value="#{IndexController.frequencies}" var="frequency"
+                               itemLabel="#{frequency}" itemValue="#{frequency}"/>
+            </h:selectOneMenu> <br/>
+            Time:
+            <h:inputText value="#{IndexController.time}"/>
+                <h:commandButton action="#{IndexController.subscribe()}" value="Subscribe"/>
+            </h:form>
+        </h:panelGroup>
     </h:panelGroup>
 
 
